@@ -1,0 +1,129 @@
+// App State
+let timeLeft = 15 * 60; // 15 minute micro-sessions
+let timerId = null;
+let isRunning = false;
+
+// User Stats (Loaded from localStorage)
+let stats = JSON.parse(localStorage.getItem('quest_reader_stats')) || { streak: 0, xp: 0, lastDate: null };
+
+// Web Audio API for procedural rain noise
+let audioCtx = null;
+let noiseNode = null;
+let isAudioPlaying = false;
+
+function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timer').textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    
+    document.getElementById('streak-count').textContent = stats.streak;
+    document.getElementById('xp-count').textContent = stats.xp;
+}
+
+function toggleTimer() {
+    if (isRunning) {
+        clearInterval(timerId);
+        document.getElementById('start-btn').textContent = 'Resume Quest';
+        document.getElementById('start-btn').style.backgroundColor = 'var(--accent)';
+        isRunning = false;
+    } else {
+        isRunning = true;
+        document.getElementById('start-btn').textContent = 'Pause';
+        document.getElementById('start-btn').style.backgroundColor = '#d97706';
+        
+        timerId = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateDisplay();
+            } else {
+                clearInterval(timerId);
+                completeQuest();
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timerId);
+    isRunning = false;
+    timeLeft = 15 * 60;
+    document.getElementById('start-btn').textContent = 'Start Quest';
+    document.getElementById('start-btn').style.backgroundColor = 'var(--accent)';
+    updateDisplay();
+}
+
+function completeQuest() {
+    isRunning = false;
+    document.getElementById('start-btn').textContent = 'Quest Complete! 🎉';
+    
+    // Award XP
+    stats.xp += 50;
+    
+    // Check Streak logic
+    const today = new Date().toDateString();
+    if (stats.lastDate !== today) {
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (stats.lastDate === yesterday || stats.streak === 0) {
+            stats.streak++;
+        } else if (stats.lastDate !== today) {
+            stats.streak = 1;
+        }
+        stats.lastDate = today;
+    }
+    
+    localStorage.setItem('quest_reader_stats', JSON.stringify(stats));
+    updateDisplay();
+    alert('Quest complete! +50 XP earned. Great job staying focused.');
+}
+
+// Procedural Pink Noise Generator for Rain Sound
+function toggleAmbient() {
+    if (!isAudioPlaying) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        const bufferSize = audioCtx.sampleRate * 2;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 800;
+
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = 0.15;
+
+        noise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        noise.start();
+        noiseNode = noise;
+
+        isAudioPlaying = true;
+        const btn = document.getElementById('ambient-btn');
+        btn.textContent = 'Stop Rain';
+        btn.classList.add('active');
+    } else {
+        if (noiseNode) {
+            noiseNode.stop();
+        }
+        if (audioCtx) {
+            audioCtx.close();
+        }
+        isAudioPlaying = false;
+        const btn = document.getElementById('ambient-btn');
+        btn.textContent = 'Play Rain';
+        btn.classList.remove('active');
+    }
+}
+
+// Initialize UI on load
+updateDisplay();
