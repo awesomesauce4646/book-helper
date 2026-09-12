@@ -2,7 +2,7 @@
     --bg-color: #111141;
     --card-bg: #1a1a1e;
     --accent: #3b82f6;
-    --accent-hover: #2563eb;
+    --accent-hover: #2666f0;
     --text-main: #f3f4f6;
     --text-muted: #9ca3af;
     --success: #10b981;
@@ -33,6 +33,22 @@ body {
     border: 1px solid rgba(255,255,255,0.05);
     justify-content: left;
     background-color: rgb(62, 62, 167);
+    margin-top: 1.5rem;
+}
+
+.container-right {
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    background: var(--card-bg);
+    padding: 2rem;
+    padding-top: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    justify-content: right;
+    background-color: rgb(62, 62, 167);
+    margin-top: 1.5rem;
 }
 
 .container {
@@ -134,13 +150,21 @@ button:active {
     background-color: var(--accent-hover);
 }
 
+#start-btn.running {
+    background-color: #d400ff;
+}
+
+#start-btn.running:hover {
+    background-color: #b000d4;
+}
+
 #reset-btn {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgb(111, 0, 255);
     color: var(--text-main);
 }
 
 #reset-btn:hover {
-    background-color: rgba(255,255,255,0.15);
+    background-color: rgba(102, 0, 235, 0.877);
 }
 
 .ambient-section {

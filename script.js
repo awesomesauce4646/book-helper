@@ -4,7 +4,7 @@ let timerId = null;
 let isRunning = false;
 
 // User Stats (Loaded from localStorage)
-let stats = JSON.parse(localStorage.getItem('quest_reader_stats')) || { streak: 0, xp: 0, lastDate: null };
+let stats = JSON.parse(localStorage.getItem('reader_stats')) || { streak: 0, xp: 0, lastDate: null };
 
 // Web Audio API for procedural rain noise
 let audioCtx = null;
@@ -22,15 +22,16 @@ function updateDisplay() {
 }
 
 function toggleTimer() {
+    const startBtn = document.getElementById('start-btn');
     if (isRunning) {
         clearInterval(timerId);
-        document.getElementById('start-btn').textContent = 'Resume Quest';
-        document.getElementById('start-btn').style.backgroundColor = 'var(--accent)';
+        startBtn.textContent = 'Resume Timer';
+        startBtn.classList.remove('running');
         isRunning = false;
     } else {
         isRunning = true;
-        document.getElementById('start-btn').textContent = 'Pause';
-        document.getElementById('start-btn').style.backgroundColor = '#d97706';
+        startBtn.textContent = 'Pause';
+        startBtn.classList.add('running');
         
         timerId = setInterval(() => {
             if (timeLeft > 0) {
@@ -48,14 +49,15 @@ function resetTimer() {
     clearInterval(timerId);
     isRunning = false;
     timeLeft = 15 * 60;
-    document.getElementById('start-btn').textContent = 'Start Quest';
-    document.getElementById('start-btn').style.backgroundColor = 'var(--accent)';
+    const startBtn = document.getElementById('start-btn');
+    startBtn.textContent = 'Start Reading!';
+    startBtn.classList.remove('running');
     updateDisplay();
 }
 
-function completeQuest() {
+function completeReading() {
     isRunning = false;
-    document.getElementById('start-btn').textContent = 'Quest Complete! 🎉';
+    document.getElementById('start-btn').textContent = 'Reading Complete!';
     
     // Award XP
     stats.xp += 50;
@@ -72,9 +74,9 @@ function completeQuest() {
         stats.lastDate = today;
     }
     
-    localStorage.setItem('quest_reader_stats', JSON.stringify(stats));
+    localStorage.setItem('reader_stats', JSON.stringify(stats));
     updateDisplay();
-    alert('Quest complete! +50 XP earned. Great job staying focused.');
+    alert('Reading complete! +50 XP earned. Great job staying focused.');
 }
 
 // Procedural Pink Noise Generator for Rain Sound
