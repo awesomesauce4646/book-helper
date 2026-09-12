@@ -109,7 +109,7 @@ function toggleAmbient() {
         noiseNode = noise;
 
         isAudioPlaying = true;
-        const btn = document.getElementById('ambient-btn');
+        const btn = document.getElementById('white-btn');
         btn.textContent = 'Stop Sound';
         btn.classList.add('active');
     } else {
@@ -120,9 +120,25 @@ function toggleAmbient() {
             audioCtx.close();
         }
         isAudioPlaying = false;
-        const btn = document.getElementById('ambient-btn');
+        const btn = document.getElementById('white-btn');
         btn.textContent = 'Play Sound';
         btn.classList.remove('active');
+    }
+}
+
+function togglePlayback() {
+    const audio = document.getElementById('rain-audio');
+    const button = document.getElementById('rain-btn');
+    if (audio.paused) { 
+        audio.play();
+        isAudioPlaying = true;
+        button.textContent = 'Stop Sound';
+        button.classList.add('active');
+    } else {
+        audio.pause();
+        isAudioPlaying = false;
+        button.textContent = 'Play Sound';
+        button.classList.remove('active');
     }
 }
 

@@ -40,15 +40,20 @@
                 </div>
             </div>
         </div>
-
         <div class="container-right">
+            <audio id="rain-audio" loop src="sounds/rain.mp3"></audio>
             <h1>Ambient Noise</h1>
             <div class="ambient-section">
-                <p>White Focus Noise<p>
-                <button id="ambient-btn" class="toggle-switch" onclick="toggleAmbient()">Play Sound</button>
+                <div class="sound-row">
+                    <p>White Noise</p>
+                    <button id="white-btn" class="toggle-switch" onclick="toggleAmbient('white')">Play Sound</button>
+                </div>
+                <div class="sound-row">
+                    <p>Heavy Rain</p>
+                    <button id="rain-btn" class="toggle-switch" onclick="togglePlayback('rain')">Play Sound</button>
+                </div>
             </div>
         </div>
-    </div>
 
     <script src="script.js" defer></script>
 </body>
