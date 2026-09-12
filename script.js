@@ -79,7 +79,6 @@ function completeReading() {
     alert('Reading complete! +50 XP earned. Great job staying focused.');
 }
 
-// Procedural Pink Noise Generator for Rain Sound
 function toggleAmbient() {
     if (!isAudioPlaying) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -111,7 +110,7 @@ function toggleAmbient() {
 
         isAudioPlaying = true;
         const btn = document.getElementById('ambient-btn');
-        btn.textContent = 'Stop Rain';
+        btn.textContent = 'Stop Sound';
         btn.classList.add('active');
     } else {
         if (noiseNode) {
@@ -122,7 +121,7 @@ function toggleAmbient() {
         }
         isAudioPlaying = false;
         const btn = document.getElementById('ambient-btn');
-        btn.textContent = 'Play Rain';
+        btn.textContent = 'Play Sound';
         btn.classList.remove('active');
     }
 }
