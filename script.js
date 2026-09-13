@@ -1,4 +1,5 @@
 // App State
+let sessionDuration = 15 * 60;
 let timeLeft = 15 * 60; // 15 minute micro-sessions
 let timerId = null;
 let isRunning = false;
@@ -39,16 +40,35 @@ function toggleTimer() {
                 updateDisplay();
             } else {
                 clearInterval(timerId);
-                completeQuest();
+                completeReading();
             }
         }, 1000);
     }
 }
 
+function updateDuration() {
+    const input = document.getElementById('timer-duration');
+    let minutes = parseInt(input.value, 10);
+
+    // guard against blank/invalid/out-of-range input
+    if (isNaN(minutes) || minutes < 1) minutes = 1;
+    if (minutes > 120) minutes = 120;
+    input.value = minutes;
+
+    sessionDuration = minutes * 60;
+
+    // only snap the live countdown if a session isn't in progress
+    if (!isRunning) {
+        timeLeft = sessionDuration;
+        updateDisplay();
+    }
+}
+
+
 function resetTimer() {
     clearInterval(timerId);
     isRunning = false;
-    timeLeft = 15 * 60;
+    timeLeft = sessionDuration;
     const startBtn = document.getElementById('start-btn');
     startBtn.textContent = 'Start Reading!';
     startBtn.classList.remove('running');
@@ -142,5 +162,5 @@ function togglePlayback() {
     }
 }
 
-// Initialize UI on load
+document.getElementById('timer-duration').addEventListener('change', updateDuration);
 updateDisplay();

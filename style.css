@@ -1,6 +1,6 @@
 :root {
     --bg-color: #111141;
-    --card-bg: #1a1a1e;
+    --card-bg: rgb(41, 41, 105);
     --accent: #3b82f6;
     --accent-hover: #2666f0;
     --text-main: #f3f4f6;
@@ -37,6 +37,12 @@ body {
     flex-direction: column;
     gap: 1.5rem;
 }
+
+.right-column {
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
 .container-left {
     grid-column: 1;
     justify-self: start;
@@ -73,7 +79,7 @@ body {
 .container-right {
     grid-column: 3;
     justify-self: end;
-    max-width: 500px;
+    width: 400px;
     height: 50%;
     background: var(--card-bg);
     padding: 2rem;
@@ -120,7 +126,7 @@ p {
 }
 
 .stat-box {
-    background-color: rgb(41, 41, 105);
+    background-color: var(--card-bg);
     padding: 1rem;
     border-radius: 10px;
     text-align: center;
@@ -149,7 +155,7 @@ p {
     margin: 1.5rem 0;
     font-variant-numeric: tabular-nums;
     letter-spacing: -2px;
-    background-color: rgb(41, 41, 105);
+    background-color: var(--card-bg);
     border-radius: 20px;
 }
 
@@ -236,6 +242,27 @@ button:active {
     background-color: var(--secondary-accent-hover);
 }
 
+.settings-section {
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: "Charis SIL", serif;
+    align-items: center;
+}
+
+input {
+    background-color: var(--card-bg);
+    color: white;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 6px;
+    width: 8.5rem;
+    padding: 10px;
+    font-size: 1.25rem;
+
+}
 .gorditas-regular {
   font-family: "Gorditas", serif;
   font-weight: 400;
