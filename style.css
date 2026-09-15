@@ -11,7 +11,12 @@
 }
 
 html {
-    overflow: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+    display: none;
 }
 
 body {
@@ -19,97 +24,34 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     margin: 0;
-    padding: 2rem;
+    padding: 3rem 2rem 2rem;
     min-height: 100vh;
-    
 }
 
-.layout-row {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: end;
-    gap: 1.5rem;
-    width: 100%;
-}
-
-.left-column {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.right-column {
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.container-left {
-    grid-column: 1;
-    justify-self: start;
-    max-width: 500px;
-    width: 500px;
-    height: 80%;
-    background: var(--card-bg);
-    padding: 2rem;
-    padding-top: 1rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.05);
-    justify-content: right;
-    background-color: rgb(62, 62, 167);
-    margin-top: 1.5rem;
-}
-
-.container {
-    grid-column: 2;
-    justify-self: center;
-    max-width: 500px;
-    height: 100%;
-    background: var(--card-bg);
-    padding: 2rem;
-    padding-top: 1rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.05);
-    justify-content: right;
-    background-color: rgb(62, 62, 167);
-    margin-top: 1.5rem;
-}
-
-.container-right {
-    grid-column: 3;
-    justify-self: end;
-    width: 400px;
-    height: 50%;
-    background: var(--card-bg);
-    padding: 2rem;
-    padding-top: 1rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.05);
-    justify-content: right;
-    background-color: rgb(62, 62, 167);
-    margin-top: 1.5rem;
-}
-
-header {
+.page-header {
     text-align: center;
     margin-bottom: 2rem;
 }
 
-h1 {
-    font-size: 3rem;
+h1, h2 {
     color: var(--text-main);
-    justify-content: center;
     text-align: center;
     font-family: "Gorditas", serif;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.5rem;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 3vw + 1rem, 3rem);
+}
+
+h2 {
+    font-size: clamp(1.25rem, 2vw + 0.75rem, 1.75rem);
 }
 
 p.subtitle {
     margin: 0;
     color: var(--text-muted);
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.5rem);
     text-align: center;
     font-family: "Charis SIL", serif;
 }
@@ -118,38 +60,110 @@ p {
     font-family: "Charis SIL", serif;
 }
 
-.stats-grid {
+/* ---- Page layout ----
+   Single column on narrow screens. On wider screens, the hero (Timer +
+   Level) sits on the left, and Ambient Noise + Stats are grouped into one
+   flex column on the right, each as an equally-weighted card, so their
+   spacing stays consistent instead of being stretched by independent grid
+   row sizing. The action row spans full width beneath both. */
+.page {
+    max-width: 640px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    grid-template-areas:
+        "hero"
+        "ambient"
+        "stats"
+        "actions";
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.stat-box {
-    background-color: var(--card-bg);
-    padding: 1rem;
-    border-radius: 10px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.02);
-    margin-bottom: -2rem;
-    margin-top: 1rem;
-    font-family: "Gorditas", serif;
+@media (min-width: 820px) {
+    .page {
+        max-width: 860px;
+        grid-template-areas:
+            "hero side"
+            "actions actions";
+        grid-template-columns: 1.3fr 1fr;
+    }
+
+    .side-column {
+        grid-area: side;
+    }
 }
 
-.stat-value {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--accent);
+.hero-card { grid-area: hero; }
+.action-row { grid-area: actions; }
+
+.side-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
 }
 
-.stat-label {
-    font-size: 0.8rem;
-    color: var(--text-main);
-    margin-top: 0.25rem;
+/* Both cards in the side column share this and stretch equally, so
+   Ambient Noise and Stats always read as the same size/weight. */
+.side-column > .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
+.hero-card,
+.container {
+    width: 100%;
+    padding: 2rem;
+    padding-top: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-sizing: border-box;
+}
+
+/* Every card shares the same base purple, then leans toward the active
+   theme's accent or secondary-accent color so each area reads as its own
+   space while still feeling like part of one palette. A plain fallback
+   color is declared first, then color-mix() with the theme variables
+   overrides it where supported (and stays correct if a theme is switched
+   in Customize, instead of being hardcoded). */
+.hero-card {
+    background-color: rgb(62, 62, 167);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.ambient-container {
+    background-color: rgb(70, 86, 195) !important; /* fallback */
+    background-color: color-mix(in srgb, rgb(62, 62, 167) 65%, var(--accent) 35%) !important;
+}
+
+.stats-container {
+    background-color: rgb(115, 40, 198); /* fallback */
+    background-color: color-mix(in srgb, rgb(62, 62, 167) 65%, var(--secondary-accent) 35%);
+}
+
+.action-row {
+    /* color-mix() only takes two colors, so blend accent + secondary-accent
+       together first, then blend that result into the base purple. */
+    background-color: rgb(84, 63, 192); /* fallback */
+    background-color: color-mix(
+        in srgb,
+        rgb(62, 62, 167) 70%,
+        color-mix(in srgb, var(--accent) 50%, var(--secondary-accent) 50%) 30%
+    );
+    padding: 1.25rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    box-sizing: border-box;
+}
+
+/* ---- Timer ---- */
 .timer-display {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 5vw + 1rem, 3.5rem);
     font-weight: bold;
     text-align: center;
     margin: 1.5rem 0;
@@ -161,6 +175,7 @@ p {
 
 .controls {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1.5rem;
 }
@@ -173,42 +188,91 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
+    font-family: inherit;
 }
 
 button:active {
     transform: scale(0.98);
 }
 
+button:focus-visible {
+    outline: 2px solid var(--text-main);
+    outline-offset: 2px;
+}
+
+#start-btn,
+#reset-btn {
+    flex: 1 1 11rem;
+    max-width: 16rem;
+}
+
 #start-btn {
     background-color: var(--accent);
     color: white;
-    width: 15rem;
 }
-
-#start-btn:hover {
-    background-color: var(--accent-hover);
-}
-
-#start-btn.running {
-    background-color: var(--secondary-accent);
-}
-
-#start-btn.running:hover {
-    background-color: var(--secondary-accent-hover);
-}
+#start-btn:hover { background-color: var(--accent-hover); }
+#start-btn.running { background-color: var(--secondary-accent); }
+#start-btn.running:hover { background-color: var(--secondary-accent-hover); }
 
 #reset-btn {
     background-color: rgb(111, 0, 255);
     color: var(--text-main);
-    width: 15rem;
+}
+#reset-btn:hover { background-color: rgba(102, 0, 235, 0.877); }
+
+/* ---- Level / XP panel ---- */
+.level-panel {
+    background-color: var(--card-bg);
+    border-radius: 14px;
+    padding: 1.35rem 1.5rem;
 }
 
-#reset-btn:hover {
-    background-color: rgba(102, 0, 235, 0.877);
+.level-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
 }
 
+.level-badge {
+    font-family: "Gorditas", serif;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.level-title {
+    font-family: "Charis SIL", serif;
+    font-size: 1.15rem;
+    color: var(--text-muted);
+}
+
+.xp-bar-track {
+    width: 100%;
+    height: 14px;
+    background-color: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+.xp-bar-label {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: "Charis SIL", serif;
+    text-align: right;
+}
+
+/* ---- Ambient noise ---- */
 .ambient-section {
-    padding-top: 1.25rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -216,38 +280,113 @@ button:active {
 
 .sound-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
 }
 
 .toggle-switch {
     background-color: var(--accent);
     border: none;
-    padding: 0.5rem 3rem;
+    padding: 0.5rem 1.5rem;
     border-radius: 6px;
     color: var(--text-main);
     cursor: pointer;
     width: 12.5rem;
+    max-width: 100%;
+}
+.toggle-switch:hover { background-color: var(--accent-hover); }
+.toggle-switch.active { background-color: var(--secondary-accent); }
+.toggle-switch.active:hover { background-color: var(--secondary-accent-hover); }
+
+/* ---- Compact stats strip (nested inside the Stats container) ---- */
+.stats-container {
+    justify-content: center;
 }
 
-.toggle-switch:hover {
-    background-color: var(--accent-hover);
-}
-
-.toggle-switch.active {
-    background-color: var(--secondary-accent);
-}
-
-.toggle-switch.active:hover {
-    background-color: var(--secondary-accent-hover);
-}
-
-.settings-section {
-    padding-top: 1.25rem;
+.stats-strip {
     display: flex;
-    justify-content: space-between;
-    font-family: "Charis SIL", serif;
+    justify-content: space-around;
+    background-color: var(--card-bg);
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.stats-strip-item {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: 0.2rem;
+}
+
+.stats-strip-value {
+    font-family: "Gorditas", serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.stats-strip-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: "Charis SIL", serif;
+}
+
+/* ---- Secondary action row ---- */
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.link-btn {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--text-main);
+    padding: 0.6rem 1.2rem;
+    flex: 1 1 8rem;
+}
+
+/* Trophies leans toward the accent color, Customize toward the
+   secondary-accent, and Settings blends both, so the three buttons read
+   as distinct actions instead of one flat row. Plain-color fallbacks
+   come first in case color-mix() isn't supported. */
+.link-btn.link-btn-trophies {
+    background-color: rgba(59, 130, 246, 0.45);
+    background-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.link-btn.link-btn-trophies:hover {
+    background-color: rgba(59, 130, 246, 0.65);
+    background-color: color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.link-btn.link-btn-customize {
+    background-color: rgba(212, 0, 255, 0.45);
+    background-color: color-mix(in srgb, var(--secondary-accent) 45%, transparent);
+}
+.link-btn.link-btn-customize:hover {
+    background-color: rgba(212, 0, 255, 0.65);
+    background-color: color-mix(in srgb, var(--secondary-accent) 65%, transparent);
+}
+
+.link-btn.link-btn-settings {
+    background-color: rgba(135, 65, 250, 0.45);
+    background-color: color-mix(in srgb, var(--accent) 30%, var(--secondary-accent) 30%);
+}
+.link-btn.link-btn-settings:hover {
+    background-color: rgba(135, 65, 250, 0.65);
+    background-color: color-mix(in srgb, var(--accent) 45%, var(--secondary-accent) 45%);
+}
+
+/* ---- Settings (inside modal) ---- */
+.settings-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: "Charis SIL", serif;
 }
 
 input {
@@ -261,14 +400,135 @@ input {
     width: 8.5rem;
     padding: 10px;
     font-size: 1.25rem;
-
 }
+
+/* ---- Modals ---- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 100;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal {
+    position: relative;
+    background-color: rgb(62, 62, 167);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: transparent;
+    color: var(--text-main);
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0.4rem 0.7rem;
+}
+.modal-close:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* ---- Trophies ---- */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+}
+
+.badge-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 0.9rem 0.6rem;
+    text-align: center;
+    font-family: "Charis SIL", serif;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.badge-card.locked {
+    opacity: 0.4;
+}
+
+.badge-icon {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+/* ---- Customize (themes) ---- */
+.theme-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.theme-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+}
+
+.theme-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.theme-swatch {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+
+.theme-name {
+    font-family: "Charis SIL", serif;
+    font-size: 0.95rem;
+}
+
+.theme-action-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    background-color: var(--accent);
+    color: var(--text-main);
+}
+.theme-action-btn:hover { background-color: var(--accent-hover); }
+.theme-action-btn[disabled] {
+    background-color: rgba(255,255,255,0.15);
+    color: var(--text-muted);
+    cursor: default;
+}
+.theme-action-btn.selected {
+    background-color: var(--secondary-accent);
+}
+
 .gorditas-regular {
   font-family: "Gorditas", serif;
   font-weight: 400;
   font-style: normal;
 }
-
 .charis-sil-regular {
   font-family: "Charis SIL", serif;
   font-weight: 400;

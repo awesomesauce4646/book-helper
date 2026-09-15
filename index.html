@@ -6,67 +6,111 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Gorditas:wght@400;700&display=swap" rel="stylesheet">
-    <title>book helper</title>
+    <title>Book Helper</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
+    <div class="page-header">
         <h1>Book Helper</h1>
         <p class="subtitle">Stay on track, minimize distractions, grow your mind.</p>
     </div>
 
-    <div class="layout-row">
-        <div class="left-column">
-            <div class="container-left">
-                <h1>Timer</h1>
-                <div class="timer-display" id="timer">15:00</div>
-                <div class="controls">
-                    <button id="start-btn" onclick="toggleTimer()">Start Reading!</button>
-                    <button id="reset-btn" onclick="resetTimer()">Reset</button>
+    <div class="page">
+        <!-- Hero: the thing you actually use every session -->
+        <div class="hero-card">
+            <h2>Timer</h2>
+            <div class="timer-display" id="timer">15:00</div>
+            <div class="controls">
+                <button id="start-btn" onclick="toggleTimer()">Start Reading!</button>
+                <button id="reset-btn" onclick="resetTimer()">Reset</button>
+            </div>
+
+            <div class="level-panel">
+                <div class="level-row">
+                    <span class="level-badge">
+                        Lv <span id="level-count">1</span>
+                    </span>
+                    <span class="level-title" id="level-title">Page Turner</span>
+                </div>
+                <div class="xp-bar-track">
+                    <div class="xp-bar-fill" id="xp-bar-fill" style="width: 0%;"></div>
+                </div>
+                <div class="xp-bar-label" id="xp-bar-label">0 / 100 XP to next level</div>
+            </div>
+        </div>
+
+        <!-- Toggled every session, so it stays on the main page -->
+        <div class="side-column">
+            <div class="container ambient-container">
+                <h2>Ambient Noise</h2>
+                <audio id="rain-audio" loop src="sounds/rain.mp3"></audio>
+                <div class="ambient-section">
+                    <div class="sound-row">
+                        <p>White Noise</p>
+                        <button id="white-btn" class="toggle-switch" onclick="toggleAmbient()">Play Sound</button>
+                    </div>
+                    <div class="sound-row">
+                        <p>Heavy Rain</p>
+                        <button id="rain-btn" class="toggle-switch" onclick="togglePlayback()">Play Sound</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="container">
-                <h1>Stats</h1>
-              <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-value" id="streak-count">0</div>
-                    <div class="stat-label">Current Streak</div>
+            <!-- Glanced at, not interacted with -->
+            <div class="container stats-container">
+                <h2>Stats</h2>
+                <div class="stats-strip">
+                    <div class="stats-strip-item">
+                        <span class="stats-strip-value" id="streak-count">0</span>
+                        <span class="stats-strip-label">Streak</span>
+                    </div>
+                    <div class="stats-strip-item">
+                        <span class="stats-strip-value" id="xp-count">0</span>
+                        <span class="stats-strip-label">Total XP</span>
+                    </div>
+                    <div class="stats-strip-item">
+                        <span class="stats-strip-value" id="sessions-count">0</span>
+                        <span class="stats-strip-label">Sessions</span>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="xp-count">0</div>
-                    <div class="stat-label">Total XP</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="level-count">1</div>
-                    <div class="stat-label">Level</div>
-                </div>
-            </div>
             </div>
         </div>
-        <div class = "right-column">
-            <div class="container-right">
-                <h1>Settings</h1>
-                <div class="settings-section">
-                    <label for="timer-duration">Timer Duration (minutes):</label>
-                    <input type="number" id="timer-duration" min="1" max="120" value="15">
-                </div>
-            </div>
-            <div class="container-right">
-                <audio id="rain-audio" loop src="sounds/rain.mp3"></audio>
-                <h1>Ambient Noise</h1>
-            <div class="ambient-section">
-                <div class="sound-row">
-                    <p>White Noise</p>
-                    <button id="white-btn" class="toggle-switch" onclick="toggleAmbient('white')">Play Sound</button>
-                </div>
-                <div class="sound-row">
-                    <p>Heavy Rain</p>
-                    <button id="rain-btn" class="toggle-switch" onclick="togglePlayback('rain')">Play Sound</button>
-                </div>
+
+        <!-- Rarely touched: tucked behind modals -->
+        <div class="action-row">
+            <button class="link-btn link-btn-trophies" onclick="openModal('trophies-modal')">Trophies</button>
+            <button class="link-btn link-btn-customize" onclick="openModal('customize-modal')">Customize</button>
+            <button class="link-btn link-btn-settings" onclick="openModal('settings-modal')">Settings</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="trophies-modal" onclick="closeModalOnBackdrop(event, 'trophies-modal')">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('trophies-modal')" aria-label="Close">&times;</button>
+            <h2>Trophies</h2>
+            <div class="badge-grid" id="badge-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="customize-modal" onclick="closeModalOnBackdrop(event, 'customize-modal')">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('customize-modal')" aria-label="Close">&times;</button>
+            <h2>Customize</h2>
+            <div class="theme-grid" id="theme-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="settings-modal" onclick="closeModalOnBackdrop(event, 'settings-modal')">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('settings-modal')" aria-label="Close">&times;</button>
+            <h2>Settings</h2>
+            <div class="settings-section">
+                <label for="timer-duration">Timer Duration (minutes):</label>
+                <input type="number" id="timer-duration" min="1" max="120" value="15">
             </div>
         </div>
     </div>
+
     <script src="script.js" defer></script>
 </body>
 </html>

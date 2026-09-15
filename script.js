@@ -1,11 +1,65 @@
+// ---- Config ----
 const XP_PER_MINUTE = 10;
-const XP_PER_LEVEL = 100;
 const MIN_MINUTES = 1;
 const MAX_MINUTES = 120;
 const DEFAULT_MINUTES = 15;
 const STORAGE_KEY = 'reader_stats';
-const DEFAULT_STATS = { streak: 0, xp: 0, lastDate: null };
 
+const DEFAULT_STATS = {
+    streak: 0,
+    xp: 0,
+    lastDate: null,
+    totalMinutes: 0,
+    sessionsCompleted: 0,
+    longestStreak: 0,
+    selectedTheme: 'default'
+};
+
+// XP cost to go from `level` to `level + 1`. Ramps up for the first dozen
+// levels, then plateaus at 400 (40 minutes) so late-game leveling never
+// requires more and more reading just to keep up.
+function xpForLevel(level) {
+    return Math.min(100 + (level - 1) * 25, 400);
+}
+
+function getLevelInfo(totalXp) {
+    let level = 1;
+    let remaining = totalXp;
+    while (remaining >= xpForLevel(level)) {
+        remaining -= xpForLevel(level);
+        level++;
+    }
+    return { level, xpIntoLevel: remaining, xpForNext: xpForLevel(level) };
+}
+
+function getTitle(level) {
+    if (level >= 40) return 'Grand Archivist';
+    if (level >= 20) return 'Sage of the Shelves';
+    if (level >= 10) return 'Bibliophile';
+    if (level >= 5) return 'Bookworm';
+    return 'Page Turner';
+}
+
+// ---- Cosmetics ----
+const THEMES = [
+    { id: 'default', name: 'Midnight Indigo', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4' },
+    { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308' },
+    { id: 'sunset',  name: 'Sunset Ember',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626' },
+    { id: 'rose',    name: 'Rose Quartz',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed' },
+    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#eab308', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48' }
+];
+
+// ---- Milestone badges (computed live from stats, nothing extra to persist) ----
+const BADGE_DEFS = [
+    { id: 'streak_7',    icon: '🔥', label: '7-Day Streak',  check: s => s.longestStreak >= 7,          hint: 'Reach a 7-day streak' },
+    { id: 'streak_30',   icon: '🔥', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Reach a 30-day streak' },
+    { id: 'hours_5',     icon: '📖', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours total' },
+    { id: 'hours_25',    icon: '📚', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours total' },
+    { id: 'sessions_10', icon: '⭐', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions' },
+    { id: 'sessions_50', icon: '🏆', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions' }
+];
+
+// ---- App State ----
 let sessionDuration = DEFAULT_MINUTES * 60;
 let timeLeft = sessionDuration;
 let timerId = null;
@@ -14,21 +68,26 @@ let sessionEndsAt = null;
 
 let stats = loadStats();
 
+// ---- Audio State ----
 let audioCtx = null;
 let noiseNode = null;
 let isNoisePlaying = false;
 let isRainPlaying = false;
 
+// ---- Stats persistence ----
 function loadStats() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return { ...DEFAULT_STATS };
         const parsed = JSON.parse(raw);
-        // merge over defaults so a missing/renamed field can't produce NaN or undefined
         return {
             streak: Number.isFinite(parsed.streak) ? parsed.streak : 0,
             xp: Number.isFinite(parsed.xp) ? parsed.xp : 0,
-            lastDate: typeof parsed.lastDate === 'string' ? parsed.lastDate : null
+            lastDate: typeof parsed.lastDate === 'string' ? parsed.lastDate : null,
+            totalMinutes: Number.isFinite(parsed.totalMinutes) ? parsed.totalMinutes : 0,
+            sessionsCompleted: Number.isFinite(parsed.sessionsCompleted) ? parsed.sessionsCompleted : 0,
+            longestStreak: Number.isFinite(parsed.longestStreak) ? parsed.longestStreak : 0,
+            selectedTheme: typeof parsed.selectedTheme === 'string' ? parsed.selectedTheme : 'default'
         };
     } catch (err) {
         console.warn('Could not read saved stats, starting fresh.', err);
@@ -40,31 +99,35 @@ function saveStats() {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
     } catch (err) {
-        // private browsing or quota exceeded: the session still counts on screen
         console.warn('Could not save stats.', err);
     }
 }
 
-function getLevel(xp) {
-    return Math.floor(xp / XP_PER_LEVEL) + 1;
-}
-
+// ---- Display ----
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
     document.getElementById('timer').textContent =
         `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-    document.getElementById('level-count').textContent = getLevel(stats.xp);
+    const { level, xpIntoLevel, xpForNext } = getLevelInfo(stats.xp);
+    document.getElementById('level-count').textContent = level;
+    document.getElementById('level-title').textContent = getTitle(level);
+    document.getElementById('xp-bar-fill').style.width = `${Math.min(100, (xpIntoLevel / xpForNext) * 100)}%`;
+    document.getElementById('xp-bar-label').textContent = `${xpIntoLevel} / ${xpForNext} XP to next level`;
+
     document.getElementById('streak-count').textContent = stats.streak;
     document.getElementById('xp-count').textContent = stats.xp;
+    document.getElementById('sessions-count').textContent = stats.sessionsCompleted;
 }
+
 function setStartButton(label, running) {
     const btn = document.getElementById('start-btn');
     btn.textContent = label;
     btn.classList.toggle('running', running);
 }
 
+// ---- Timer ----
 function tick() {
     timeLeft = Math.max(0, Math.round((sessionEndsAt - Date.now()) / 1000));
     updateDisplay();
@@ -125,37 +188,140 @@ function updateDuration() {
     }
 }
 
+// ---- Completion ----
 function completeReading() {
     isRunning = false;
     timeLeft = 0;
     setStartButton('Reading complete', false);
 
-    const levelBefore = getLevel(stats.xp);
+    const levelBefore = getLevelInfo(stats.xp).level;
+    const badgesBefore = BADGE_DEFS.filter(b => b.check(stats)).map(b => b.id);
+
     const xpEarned = Math.round((sessionDuration / 60) * XP_PER_MINUTE);
     stats.xp += xpEarned;
-    const levelAfter = getLevel(stats.xp);
-
+    stats.totalMinutes += sessionDuration / 60;
+    stats.sessionsCompleted += 1;
     updateStreak();
+    stats.longestStreak = Math.max(stats.longestStreak, stats.streak);
+
+    const levelAfter = getLevelInfo(stats.xp).level;
+    const badgesAfter = BADGE_DEFS.filter(b => b.check(stats));
+    const newBadges = badgesAfter.filter(b => !badgesBefore.includes(b.id));
+
     saveStats();
     updateDisplay();
+    renderBadges();
+    renderThemes();
 
-    const levelUp = levelAfter > levelBefore ? ` You reached level ${levelAfter}.` : '';
-    alert(`Reading complete. +${xpEarned} XP earned.${levelUp}`);
+    let message = `Reading complete. +${xpEarned} XP earned.`;
+    if (levelAfter > levelBefore) {
+        message += ` You reached level ${levelAfter}: ${getTitle(levelAfter)}.`;
+    }
+    if (newBadges.length > 0) {
+        message += ` New trophy unlocked: ${newBadges.map(b => b.label).join(', ')}.`;
+    }
+    alert(message);
 }
 
 function updateStreak() {
     const today = new Date().toDateString();
-    if (stats.lastDate === today) return; // already counted today
+    if (stats.lastDate === today) return;
 
     const yesterday = new Date(Date.now() - 86400000).toDateString();
     if (stats.lastDate === yesterday) {
         stats.streak += 1;
     } else {
-        stats.streak = 1; // first session ever, or the chain was broken
+        stats.streak = 1;
     }
     stats.lastDate = today;
 }
 
+// ---- Cosmetics ----
+function applyTheme(themeId) {
+    const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
+    const root = document.documentElement.style;
+    root.setProperty('--accent', theme.accent);
+    root.setProperty('--accent-hover', theme.accentHover);
+    root.setProperty('--secondary-accent', theme.secondary);
+    root.setProperty('--secondary-accent-hover', theme.secondaryHover);
+}
+
+function selectTheme(themeId) {
+    const { level } = getLevelInfo(stats.xp);
+    const theme = THEMES.find(t => t.id === themeId);
+    if (!theme || level < theme.unlockLevel) return;
+
+    stats.selectedTheme = themeId;
+    saveStats();
+    applyTheme(themeId);
+    renderThemes();
+}
+
+function renderThemes() {
+    const grid = document.getElementById('theme-grid');
+    if (!grid) return;
+    const { level } = getLevelInfo(stats.xp);
+
+    grid.innerHTML = THEMES.map(theme => {
+        const unlocked = level >= theme.unlockLevel;
+        const selected = stats.selectedTheme === theme.id;
+        let buttonHtml;
+        if (!unlocked) {
+            buttonHtml = `<button class="theme-action-btn" disabled>Lv ${theme.unlockLevel}</button>`;
+        } else if (selected) {
+            buttonHtml = `<button class="theme-action-btn selected" disabled>Selected</button>`;
+        } else {
+            buttonHtml = `<button class="theme-action-btn" onclick="selectTheme('${theme.id}')">Select</button>`;
+        }
+        return `
+            <div class="theme-row">
+                <div class="theme-info">
+                    <span class="theme-swatch" style="background:${theme.accent};"></span>
+                    <span class="theme-name">${theme.name}</span>
+                </div>
+                ${buttonHtml}
+            </div>
+        `;
+    }).join('');
+}
+
+// ---- Trophies ----
+function renderBadges() {
+    const grid = document.getElementById('badge-grid');
+    if (!grid) return;
+
+    grid.innerHTML = BADGE_DEFS.map(badge => {
+        const unlocked = badge.check(stats);
+        return `
+            <div class="badge-card ${unlocked ? '' : 'locked'}">
+                <span class="badge-icon">${badge.icon}</span>
+                <div>${badge.label}</div>
+                ${unlocked ? '' : `<div style="margin-top:0.3rem; color: var(--text-muted); font-size: 0.75rem;">${badge.hint}</div>`}
+            </div>
+        `;
+    }).join('');
+}
+
+// ---- Modals ----
+function openModal(id) {
+    document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+}
+
+function closeModalOnBackdrop(event, id) {
+    if (event.target.id === id) closeModal(id);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    }
+});
+
+// ---- Procedural rain noise (White Noise button) ----
 function toggleAmbient() {
     const btn = document.getElementById('white-btn');
 
@@ -208,6 +374,7 @@ function toggleAmbient() {
     }
 }
 
+// ---- Recorded rain track (Heavy Rain button, separate <audio> element) ----
 function togglePlayback() {
     const audio = document.getElementById('rain-audio');
     const button = document.getElementById('rain-btn');
@@ -226,9 +393,14 @@ function togglePlayback() {
     }
 }
 
+// ---- Init ----
 const durationInput = document.getElementById('timer-duration');
 if (durationInput) {
     durationInput.addEventListener('change', updateDuration);
     durationInput.addEventListener('blur', updateDuration);
 }
+
+applyTheme(stats.selectedTheme);
 updateDisplay();
+renderBadges();
+renderThemes();
