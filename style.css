@@ -4,7 +4,7 @@
     --accent: #3b82f6;
     --accent-hover: #2666f0;
     --text-main: #f3f4f6;
-    --text-muted: #9ca3af;
+    --text-muted: #c6cedb;
     --success: #10b981;
     --secondary-accent: #d400ff;
     --secondary-accent-hover: #b000d4;
@@ -220,7 +220,6 @@ button:focus-visible {
 }
 #reset-btn:hover { background-color: rgba(102, 0, 235, 0.877); }
 
-/* ---- Level / XP panel ---- */
 .level-panel {
     background-color: var(--card-bg);
     border-radius: 14px;
@@ -258,7 +257,7 @@ button:focus-visible {
 
 .xp-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--secondary-accent));
+    background:  rgb(198, 65, 250);
     border-radius: 999px;
     transition: width 0.4s ease;
 }
@@ -300,7 +299,6 @@ button:focus-visible {
 .toggle-switch.active { background-color: var(--secondary-accent); }
 .toggle-switch.active:hover { background-color: var(--secondary-accent-hover); }
 
-/* ---- Compact stats strip (nested inside the Stats container) ---- */
 .stats-container {
     justify-content: center;
 }
@@ -342,16 +340,11 @@ button:focus-visible {
 }
 
 .link-btn {
-    border: 1px solid rgba(255,255,255,0.2);
     color: var(--text-main);
     padding: 0.6rem 1.2rem;
     flex: 1 1 8rem;
 }
 
-/* Trophies leans toward the accent color, Customize toward the
-   secondary-accent, and Settings blends both, so the three buttons read
-   as distinct actions instead of one flat row. Plain-color fallbacks
-   come first in case color-mix() isn't supported. */
 .link-btn.link-btn-trophies {
     background-color: rgba(59, 130, 246, 0.45);
     background-color: color-mix(in srgb, var(--accent) 45%, transparent);

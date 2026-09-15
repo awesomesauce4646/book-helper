@@ -15,9 +15,6 @@ const DEFAULT_STATS = {
     selectedTheme: 'default'
 };
 
-// XP cost to go from `level` to `level + 1`. Ramps up for the first dozen
-// levels, then plateaus at 400 (40 minutes) so late-game leveling never
-// requires more and more reading just to keep up.
 function xpForLevel(level) {
     return Math.min(100 + (level - 1) * 25, 400);
 }
@@ -40,7 +37,6 @@ function getTitle(level) {
     return 'Page Turner';
 }
 
-// ---- Cosmetics ----
 const THEMES = [
     { id: 'default', name: 'Midnight Indigo', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4' },
     { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308' },
@@ -49,7 +45,6 @@ const THEMES = [
     { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#eab308', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48' }
 ];
 
-// ---- Milestone badges (computed live from stats, nothing extra to persist) ----
 const BADGE_DEFS = [
     { id: 'streak_7',    icon: '🔥', label: '7-Day Streak',  check: s => s.longestStreak >= 7,          hint: 'Reach a 7-day streak' },
     { id: 'streak_30',   icon: '🔥', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Reach a 30-day streak' },
@@ -59,7 +54,7 @@ const BADGE_DEFS = [
     { id: 'sessions_50', icon: '🏆', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions' }
 ];
 
-// ---- App State ----
+
 let sessionDuration = DEFAULT_MINUTES * 60;
 let timeLeft = sessionDuration;
 let timerId = null;
@@ -68,13 +63,11 @@ let sessionEndsAt = null;
 
 let stats = loadStats();
 
-// ---- Audio State ----
 let audioCtx = null;
 let noiseNode = null;
 let isNoisePlaying = false;
 let isRainPlaying = false;
 
-// ---- Stats persistence ----
 function loadStats() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -188,7 +181,6 @@ function updateDuration() {
     }
 }
 
-// ---- Completion ----
 function completeReading() {
     isRunning = false;
     timeLeft = 0;
