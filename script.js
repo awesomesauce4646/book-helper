@@ -38,11 +38,11 @@ function getTitle(level) {
 }
 
 const THEMES = [
-    { id: 'default', name: 'Midnight Indigo', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4' },
-    { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308' },
-    { id: 'sunset',  name: 'Sunset Ember',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626' },
-    { id: 'rose',    name: 'Rose Quartz',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed' },
-    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#eab308', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48' }
+    { id: 'default', name: 'Midnight Indigo', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4', bgColor: '#111141', xpFill: '#c641fa', reset: 'rgb(111, 0, 255)', "reset-hover": 'rgb(102, 0, 235)' },
+    { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', "reset-hover": 'rgb(6, 63, 35)' },
+    { id: 'sunset',  name: 'Sunset Ember',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', "reset-hover": 'rgb(182, 47, 47)' },
+    { id: 'rose',    name: 'Rose Quartz',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', "reset-hover": 'rgb(160, 60, 60)' },
+    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', "reset-hover": 'rgb(177, 115, 0)' }
 ];
 
 const BADGE_DEFS = [
@@ -228,7 +228,6 @@ function updateStreak() {
     stats.lastDate = today;
 }
 
-// ---- Cosmetics ----
 function applyTheme(themeId) {
     const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
     const root = document.documentElement.style;
@@ -236,6 +235,10 @@ function applyTheme(themeId) {
     root.setProperty('--accent-hover', theme.accentHover);
     root.setProperty('--secondary-accent', theme.secondary);
     root.setProperty('--secondary-accent-hover', theme.secondaryHover);
+    root.setProperty('--bg-color', theme.bgColor);
+    root.setProperty('--xp-fill', theme.xpFill);
+    root.setProperty('--reset', theme.reset); 
+    root.setProperty('--reset-hover', theme["reset-hover"]);
 }
 
 function selectTheme(themeId) {
@@ -277,7 +280,6 @@ function renderThemes() {
     }).join('');
 }
 
-// ---- Trophies ----
 function renderBadges() {
     const grid = document.getElementById('badge-grid');
     if (!grid) return;
@@ -294,7 +296,6 @@ function renderBadges() {
     }).join('');
 }
 
-// ---- Modals ----
 function openModal(id) {
     document.getElementById(id).classList.add('open');
 }
@@ -313,7 +314,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- Procedural rain noise (White Noise button) ----
 function toggleAmbient() {
     const btn = document.getElementById('white-btn');
 
@@ -366,7 +366,6 @@ function toggleAmbient() {
     }
 }
 
-// ---- Recorded rain track (Heavy Rain button, separate <audio> element) ----
 function togglePlayback() {
     const audio = document.getElementById('rain-audio');
     const button = document.getElementById('rain-btn');

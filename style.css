@@ -8,6 +8,9 @@
     --success: #10b981;
     --secondary-accent: #d400ff;
     --secondary-accent-hover: #b000d4;
+    --xp-fill: rgb(198, 65, 250);
+    --reset: rgb(111, 0, 255);
+    --reset-hover: rgb(102, 0, 235);
 }
 
 html {
@@ -21,8 +24,8 @@ html::-webkit-scrollbar {
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
+    background-color: var(--bg-color); /* fallback */
+    border: 1px solid rgba(255,255,255,0.1);    color: var(--text-main);
     margin: 0;
     padding: 3rem 2rem 2rem;
     min-height: 100vh;
@@ -124,30 +127,24 @@ p {
     box-sizing: border-box;
 }
 
-/* Every card shares the same base purple, then leans toward the active
-   theme's accent or secondary-accent color so each area reads as its own
-   space while still feeling like part of one palette. A plain fallback
-   color is declared first, then color-mix() with the theme variables
-   overrides it where supported (and stays correct if a theme is switched
-   in Customize, instead of being hardcoded). */
+
 .hero-card {
-    background-color: rgb(62, 62, 167);
+    background-color: rgb(70, 70, 180); /* fallback */
+    background-color: color-mix(in srgb, rgb(62, 62, 167) 65%, var(--accent) 35%);
     border: 1px solid rgba(255,255,255,0.1);
 }
 
 .ambient-container {
-    background-color: rgb(70, 86, 195) !important; /* fallback */
-    background-color: color-mix(in srgb, rgb(62, 62, 167) 65%, var(--accent) 35%) !important;
+    background-color: rgb(70, 86, 195) !important;
+    background-color: color-mix(in srgb, rgb(61, 33, 99) 65%, var(--accent) 35%) !important;
 }
 
 .stats-container {
-    background-color: rgb(115, 40, 198); /* fallback */
-    background-color: color-mix(in srgb, rgb(62, 62, 167) 65%, var(--secondary-accent) 35%);
+    background-color: rgb(40, 43, 198); /* fallback */
+    background-color: color-mix(in srgb, rgb(104, 8, 133) 65%, var(--accent) 35%);
 }
 
 .action-row {
-    /* color-mix() only takes two colors, so blend accent + secondary-accent
-       together first, then blend that result into the base purple. */
     background-color: rgb(84, 63, 192); /* fallback */
     background-color: color-mix(
         in srgb,
@@ -215,10 +212,10 @@ button:focus-visible {
 #start-btn.running:hover { background-color: var(--secondary-accent-hover); }
 
 #reset-btn {
-    background-color: rgb(111, 0, 255);
+    background-color: var(--reset);
     color: var(--text-main);
 }
-#reset-btn:hover { background-color: rgba(102, 0, 235, 0.877); }
+#reset-btn:hover { background-color: var(--reset-hover); }
 
 .level-panel {
     background-color: var(--card-bg);
@@ -255,9 +252,10 @@ button:focus-visible {
     overflow: hidden;
 }
 
+
 .xp-bar-fill {
     height: 100%;
-    background:  rgb(198, 65, 250);
+    background: var(--xp-fill); /* was: rgb(198, 65, 250) */
     border-radius: 999px;
     transition: width 0.4s ease;
 }
