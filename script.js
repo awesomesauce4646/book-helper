@@ -42,7 +42,7 @@ const THEMES = [
     { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', "reset-hover": 'rgb(6, 63, 35)' },
     { id: 'sunset',  name: 'Sunset Ember',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', "reset-hover": 'rgb(182, 47, 47)' },
     { id: 'rose',    name: 'Rose Quartz',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', "reset-hover": 'rgb(160, 60, 60)' },
-    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', "reset-hover": 'rgb(177, 115, 0)' }
+    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#744f00', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', "reset-hover": 'rgb(177, 115, 0)' }
 ];
 
 const BADGE_DEFS = [
