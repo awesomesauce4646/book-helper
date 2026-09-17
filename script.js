@@ -1,4 +1,3 @@
-// ---- Config ----
 const XP_PER_MINUTE = 10;
 const MIN_MINUTES = 1;
 const MAX_MINUTES = 120;
@@ -17,6 +16,7 @@ const DEFAULT_STATS = {
 
 function xpForLevel(level) {
     return Math.min(100 + (level - 1) * 25, 400);
+    // so that at a higher level it doesn't get impossible to level up unless you read a ton
 }
 
 function getLevelInfo(totalXp) {
@@ -30,28 +30,28 @@ function getLevelInfo(totalXp) {
 }
 
 function getTitle(level) {
-    if (level >= 40) return 'Grand Archivist';
-    if (level >= 20) return 'Sage of the Shelves';
-    if (level >= 10) return 'Bibliophile';
+    if (level >= 40) return 'Smarty Pants';
+    if (level >= 20) return 'Knowledge Consumer';
+    if (level >= 10) return 'Brainiac';
     if (level >= 5) return 'Bookworm';
-    return 'Page Turner';
+    return 'Newbie Reader';
 }
 
 const THEMES = [
-    { id: 'default', name: 'Midnight Indigo', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4', bgColor: '#111141', xpFill: '#c641fa', reset: 'rgb(111, 0, 255)', resetHover: 'rgb(102, 0, 235)' },
-    { id: 'forest',  name: 'Forest Canopy',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', resetHover: 'rgb(5, 60, 32)' },
-    { id: 'sunset',  name: 'Sunset Ember',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', resetHover: 'rgb(220, 38, 38)' },
-    { id: 'rose',    name: 'Rose Quartz',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', resetHover: 'rgb(215, 60, 60)' },
-    { id: 'gold',    name: 'Golden Hour',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', resetHover: 'rgb(190, 120, 0)' }
+    { id: 'default', name: 'Ocean', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4', bgColor: '#111141', xpFill: '#c641fa', reset: 'rgb(111, 0, 255)', resetHover: 'rgb(102, 0, 235)' },
+    { id: 'forest',  name: 'Forest',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', resetHover: 'rgb(5, 60, 32)' },
+    { id: 'sunset',  name: 'Sunset',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', resetHover: 'rgb(220, 38, 38)' },
+    { id: 'rose',    name: 'Rose',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', resetHover: 'rgb(215, 60, 60)' },
+    { id: 'gold',    name: 'Golden',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', resetHover: 'rgb(190, 120, 0)' }
 ];
 
 const BADGE_DEFS = [
-    { id: 'streak_7',    icon: '🔥', label: '7-Day Streak',  check: s => s.longestStreak >= 7,          hint: 'Reach a 7-day streak' },
-    { id: 'streak_30',   icon: '🔥', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Reach a 30-day streak' },
-    { id: 'hours_5',     icon: '📖', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours total' },
-    { id: 'hours_25',    icon: '📚', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours total' },
-    { id: 'sessions_10', icon: '⭐', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions' },
-    { id: 'sessions_50', icon: '🏆', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions' }
+    { id: 'streak_7',    icon: '🔥', label: '7-Day Streak',  check: s => s.longestStreak >= 7,          hint: 'Read for 7 days straight!' },
+    { id: 'streak_30',   icon: '🔥', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Read for 30 days straight!' },
+    { id: 'hours_5',     icon: '📖', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours in total!' },
+    { id: 'hours_25',    icon: '📚', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours in total!' },
+    { id: 'sessions_10', icon: '⭐', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions of reading!' },
+    { id: 'sessions_50', icon: '🏆', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions of reading!' }
 ];
 
 
@@ -69,23 +69,18 @@ let isNoisePlaying = false;
 let isRainPlaying = false;
 
 function loadStats() {
-    try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return { ...DEFAULT_STATS };
-        const parsed = JSON.parse(raw);
+        const parsed = raw ? JSON.parse(raw) : {};
+
         return {
-            streak: Number.isFinite(parsed.streak) ? parsed.streak : 0,
-            xp: Number.isFinite(parsed.xp) ? parsed.xp : 0,
-            lastDate: typeof parsed.lastDate === 'string' ? parsed.lastDate : null,
-            totalMinutes: Number.isFinite(parsed.totalMinutes) ? parsed.totalMinutes : 0,
-            sessionsCompleted: Number.isFinite(parsed.sessionsCompleted) ? parsed.sessionsCompleted : 0,
-            longestStreak: Number.isFinite(parsed.longestStreak) ? parsed.longestStreak : 0,
-            selectedTheme: typeof parsed.selectedTheme === 'string' ? parsed.selectedTheme : 'default'
+            streak: parsed.streak ?? 0,
+            xp: parsed.xp ?? 0,
+            lastDate: parsed.lastDate ?? null,
+            totalMinutes: parsed.totalMinutes ?? 0,
+            sessionsCompleted:  parsed.sessionsCompleted ?? 0,
+            longestStreak: parsed.longestStreak ?? 0,
+            selectedTheme: parsed.selectedTheme ?? 'default'
         };
-    } catch (err) {
-        console.warn('Could not read saved stats, starting fresh.', err);
-        return { ...DEFAULT_STATS };
-    }
 }
 
 function saveStats() {
@@ -96,7 +91,6 @@ function saveStats() {
     }
 }
 
-// ---- Display ----
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
@@ -120,7 +114,6 @@ function setStartButton(label, running) {
     btn.classList.toggle('running', running);
 }
 
-// ---- Timer ----
 function tick() {
     timeLeft = Math.max(0, Math.round((sessionEndsAt - Date.now()) / 1000));
     updateDisplay();
@@ -202,13 +195,12 @@ function completeReading() {
 
     saveStats();
     updateDisplay();
-    renderBadges();
-    renderThemes();
+    createBadges();
+    themeLayout();
 
     showCompletionModal({ xpEarned, levelBefore, levelAfter, newBadges });
 }
 
-// ---- Session-complete modal (replaces alert()) ----
 function showCompletionModal({ xpEarned, levelBefore, levelAfter, newBadges }) {
     const body = document.getElementById('complete-body');
 
@@ -261,10 +253,10 @@ function selectTheme(themeId) {
     stats.selectedTheme = themeId;
     saveStats();
     applyTheme(themeId);
-    renderThemes();
+    themeLayout();
 }
 
-function renderThemes() {
+function themeLayout() {
     const grid = document.getElementById('theme-grid');
     if (!grid) return;
     const { level } = getLevelInfo(stats.xp);
@@ -292,8 +284,7 @@ function renderThemes() {
     }).join('');
 }
 
-// ---- Trophies ----
-function renderBadges() {
+function createBadges() {
     const grid = document.getElementById('badge-grid');
     if (!grid) return;
 
@@ -309,7 +300,6 @@ function renderBadges() {
     }).join('');
 }
 
-// ---- Modals ----
 function openModal(id) {
     document.getElementById(id).classList.add('open');
 }
@@ -328,7 +318,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// ---- Procedural rain noise (White Noise button) ----
 function toggleAmbient() {
     const btn = document.getElementById('white-btn');
 
@@ -381,7 +370,6 @@ function toggleAmbient() {
     }
 }
 
-// ---- Recorded rain track (Heavy Rain button, separate <audio> element) ----
 function togglePlayback() {
     const audio = document.getElementById('rain-audio');
     const button = document.getElementById('rain-btn');
@@ -400,7 +388,6 @@ function togglePlayback() {
     }
 }
 
-// ---- Init ----
 const durationInput = document.getElementById('timer-duration');
 if (durationInput) {
     durationInput.addEventListener('change', updateDuration);
@@ -409,5 +396,5 @@ if (durationInput) {
 
 applyTheme(stats.selectedTheme);
 updateDisplay();
-renderBadges();
-renderThemes();
+createBadges();
+themeLayout();
