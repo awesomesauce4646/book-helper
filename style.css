@@ -34,6 +34,53 @@ body {
 .page-header {
     text-align: center;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title-row {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.mascot-wrapper {
+    position: absolute;
+    left: 100%;
+    bottom: -12px;
+    margin-left: 1rem;
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
+}
+
+.mascot-body {
+    position: absolute;
+    inset: 0;
+    background-color: var(--accent);
+    -webkit-mask-image: url('mascot-body.png');
+    mask-image: url('mascot-body.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    image-rendering: pixelated;
+    transition: background-color 0.3s ease;
+}
+
+.mascot-details {
+    position: absolute;
+    inset: 0;
+    background-image: url('mascot-details.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    image-rendering: pixelated;
 }
 
 h1, h2 {
@@ -130,13 +177,7 @@ p {
     box-sizing: border-box;
 }
 
-/* Every card shares the same base purple, then leans toward the active
-   theme's accent or secondary-accent color so each area reads as its own
-   space while still feeling like part of one palette. A plain fallback
-   color is declared first, then color-mix() with the theme variables
-   overrides it where supported (and stays correct if a theme is switched
-   in Customize, instead of being hardcoded). Every card also gets a chunky
-   pixel-style border via stacked box-shadows instead of a soft drop shadow. */
+
 .hero-card {
     background-color: rgb(70, 70, 180); /* fallback */
     background-color: color-mix(in srgb, rgb(62, 62, 167) 35%, var(--accent) 35%);
@@ -419,7 +460,6 @@ button:focus-visible {
     background-color: color-mix(in srgb, var(--accent) 45%, var(--secondary-accent) 45%);
 }
 
-/* ---- Settings (inside modal) ---- */
 .settings-section {
     display: flex;
     flex-wrap: wrap;
@@ -429,20 +469,27 @@ button:focus-visible {
     font-family: "VT323", serif;
 }
 
+.settings-section label {
+    font-size: clamp(1.1rem, 1vw + 0.9rem, 1.35rem);
+}
+
 input {
     background-color: var(--card-bg);
     color: white;
+    font-family: "VT323", serif;
     font-variant-numeric: tabular-nums;
     text-align: center;
     border-style: solid;
     border-width: 0px;
-    border-radius: 6px;
     width: 8.5rem;
     padding: 10px;
-    font-size: 1.25rem;
+    font-size: 1.6rem;
+    box-shadow:
+        4px 4px 0 0 rgba(0,0,0,0.4),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
-/* ---- Modals ---- */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -461,14 +508,15 @@ input {
 .modal {
     position: relative;
     background-color: color-mix(in srgb, rgb(19, 19, 65) 45%, var(--accent) 75%);
-    border-radius: 16px;
     padding: 2rem;
     max-width: 480px;
     width: 100%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow:
+        4px 4px 0 0 rgba(0,0,0,0.4),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.2);    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .modal-close {
@@ -494,12 +542,15 @@ input {
 
 .badge-card {
     background-color: var(--card-bg);
-    border-radius: 10px;
     padding: 0.9rem 0.6rem;
     text-align: center;
     font-family: "VT323", serif;
     font-size: clamp(1rem, 0.7vw + 0.85rem, 1.15rem);
     border: 1px solid rgba(255,255,255,0.05);
+    box-shadow:
+        4px 4px 0 0 rgba(0,0,0,0.4),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
 .badge-card.locked {
@@ -510,6 +561,7 @@ input {
     font-size: 1.6rem;
     display: block;
     margin-bottom: 0.4rem;
+
 }
 
 /* ---- Customize (themes) ---- */
@@ -525,8 +577,11 @@ input {
     justify-content: space-between;
     gap: 0.75rem;
     background-color: var(--card-bg);
-    border-radius: 10px;
     padding: 0.75rem 1rem;
+    box-shadow:
+        4px 4px 0 0 rgba(0,0,0,0.4),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
 .theme-info {
@@ -564,6 +619,65 @@ input {
 .theme-action-btn.selected {
     background-color: var(--secondary-accent);
 }
+
+/* ---- Session complete modal ---- */
+.complete-modal {
+    text-align: center;
+    background-color: color-mix(in srgb, rgb(19, 19, 65) 45%, var(--secondary-accent) 55%);
+    border-radius: 0;
+    box-shadow:
+        6px 6px 0 0 rgba(0,0,0,0.5),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.15);
+}
+
+.complete-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.complete-body {
+    font-family: "VT323", serif;
+    font-size: clamp(1.1rem, 1vw + 0.9rem, 1.35rem);
+    color: var(--text-main);
+    margin: 1rem 0 1.5rem;
+    line-height: 1.5;
+}
+
+.complete-body .complete-xp {
+    color: var(--xp-fill);
+    font-weight: bold;
+}
+
+.complete-body .complete-levelup {
+    color: var(--accent);
+    font-weight: bold;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.complete-body .complete-badge {
+    color: var(--secondary-accent);
+    font-weight: bold;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.complete-ok-btn {
+    background-color: var(--accent);
+    color: var(--text-main);
+    font-family: "VT323", serif;
+    font-size: clamp(1.05rem, 1vw + 0.85rem, 1.3rem);
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    box-shadow:
+        4px 4px 0 0 rgba(0,0,0,0.4),
+        inset -2px -2px 0 0 rgba(0,0,0,0.3),
+        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+}
+.complete-ok-btn:hover { background-color: var(--accent-hover); }
 
 .gorditas-regular {
   font-family: "Gorditas", serif;
