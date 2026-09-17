@@ -1,5 +1,5 @@
 const XP_PER_MINUTE = 10;
-const MIN_MINUTES = 1;
+const MIN_MINUTES = 5;
 const MAX_MINUTES = 120;
 const DEFAULT_MINUTES = 15;
 const STORAGE_KEY = 'reader_stats';
@@ -46,12 +46,12 @@ const THEMES = [
 ];
 
 const BADGE_DEFS = [
-    { id: 'streak_7',    icon: '🔥', label: '7-Day Streak',  check: s => s.longestStreak >= 7,          hint: 'Read for 7 days straight!' },
-    { id: 'streak_30',   icon: '🔥', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Read for 30 days straight!' },
-    { id: 'hours_5',     icon: '📖', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours in total!' },
-    { id: 'hours_25',    icon: '📚', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours in total!' },
-    { id: 'sessions_10', icon: '⭐', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions of reading!' },
-    { id: 'sessions_50', icon: '🏆', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions of reading!' }
+    { id: 'streak_7',    image: 'images/fire.png', label: '7-Day Streak',  check: s => s.longestStreak >= 7,hint: 'Read for 7 days straight!' },
+    { id: 'streak_30',   image: 'images/fire.png', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Read for 30 days straight!' },
+    { id: 'hours_5',     image: 'images/book.png', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours in total!' },
+    { id: 'hours_25',    image: 'images/book.png', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours in total!' },
+    { id: 'sessions_10', image: 'images/trophy.png', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions of reading!' },
+    { id: 'sessions_50', image: 'images/trophy.png', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions of reading!' }
 ];
 
 
@@ -63,10 +63,9 @@ let sessionEndsAt = null;
 
 let stats = loadStats();
 
-let audioCtx = null;
-let noiseNode = null;
 let isNoisePlaying = false;
 let isRainPlaying = false;
+
 
 function loadStats() {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -84,11 +83,7 @@ function loadStats() {
 }
 
 function saveStats() {
-    try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
-    } catch (err) {
-        console.warn('Could not save stats.', err);
-    }
 }
 
 function updateDisplay() {
@@ -162,7 +157,7 @@ function updateDuration() {
     const input = document.getElementById('timer-duration');
     let minutes = parseInt(input.value, 10);
 
-    if (!Number.isFinite(minutes) || minutes < MIN_MINUTES) minutes = MIN_MINUTES;
+    if (minutes < MIN_MINUTES) minutes = MIN_MINUTES;
     if (minutes > MAX_MINUTES) minutes = MAX_MINUTES;
     input.value = minutes;
 
@@ -211,7 +206,7 @@ function showCompletionModal({ xpEarned, levelBefore, levelAfter, newBadges }) {
     }
 
     if (newBadges.length > 0) {
-        const badgeText = newBadges.map(b => `${b.icon} ${b.label}`).join(', ');
+        const badgeText = newBadges.map(b => `${b.image} ${b.label}`).join(', ');
         html += `<span class="complete-badge">New trophy unlocked: ${badgeText}</span>`;
     }
 
@@ -292,7 +287,7 @@ function createBadges() {
         const unlocked = badge.check(stats);
         return `
             <div class="badge-card ${unlocked ? '' : 'locked'}">
-                <span class="badge-icon">${badge.icon}</span>
+                <img class="badge-icon" src="${badge.image}"</img>
                 <div>${badge.label}</div>
                 ${unlocked ? '' : `<div style="margin-top:0.3rem; color: var(--text-muted); font-size: 0.75rem;">${badge.hint}</div>`}
             </div>
@@ -318,75 +313,42 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-function toggleAmbient() {
-    const btn = document.getElementById('white-btn');
+function toggleNoise() {
+    const whiteAudio = document.getElementById('white-audio')
+    const whiteButton = document.getElementById('white-btn');
 
-    if (!isNoisePlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        const bufferSize = audioCtx.sampleRate * 2;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1;
-        }
-
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        noise.loop = true;
-
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 800;
-
-        const gainNode = audioCtx.createGain();
-        gainNode.gain.value = 0.15;
-
-        noise.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
-
-        noise.start();
-        noiseNode = noise;
+    if (whiteAudio.paused) {
+        whiteAudio.play();
         isNoisePlaying = true;
-
-        btn.textContent = 'Stop sound';
-        btn.classList.add('active');
+        whiteButton.textContent = 'Stop sound';
+        whiteButton.classList.add('active');
     } else {
-        if (noiseNode) {
-            noiseNode.stop();
-            noiseNode.disconnect();
-            noiseNode = null;
-        }
-        if (audioCtx) {
-            audioCtx.close();
-            audioCtx = null;
-        }
+        whiteAudio.pause();
         isNoisePlaying = false;
-
-        btn.textContent = 'Play sound';
-        btn.classList.remove('active');
+        whiteButton.textContent = 'Play sound';
+        whiteButton.classList.remove('active');
     }
+
 }
 
-function togglePlayback() {
-    const audio = document.getElementById('rain-audio');
-    const button = document.getElementById('rain-btn');
-    if (!audio || !button) return;
 
-    if (audio.paused) {
-        audio.play().catch(err => console.warn('Playback blocked.', err));
+function toggleRain() {
+    const rainAudio = document.getElementById('rain-audio');
+    const rainButton = document.getElementById('rain-btn');
+
+    if (rainAudio.paused) {
+        rainAudio.play();
         isRainPlaying = true;
-        button.textContent = 'Stop sound';
-        button.classList.add('active');
+        rainButton.textContent = 'Stop sound';
+        rainButton.classList.add('active');
     } else {
-        audio.pause();
+        rainAudio.pause();
         isRainPlaying = false;
-        button.textContent = 'Play sound';
-        button.classList.remove('active');
-    }
+        rainButton.textContent = 'Play sound';
+        rainButton.classList.remove('active');
+    }    
 }
+
 
 const durationInput = document.getElementById('timer-duration');
 if (durationInput) {

@@ -21,7 +21,7 @@ I personally struggle a lot with reading, so I thought making a site for it woul
 ## Technicalities 
 
 This site saves your storage through localStorage, so that you can maintain a streak and maintain your progress as you read. Mask-image was used in order to change the mascot's color with the theme, which was a bit tricky to understand at first. 
-The trophy system checks after a session if you have earned an achievement or not, looking at streak length, total hours read, and total sessions completed. The white noise is procedurally computer generated, with the Web Audio API. The theme system is updated through javascript by changing the value of the color variables when the user changes themes.
+The trophy system checks after a session if you have earned an achievement or not, looking at streak length, total hours read, and total sessions completed. The theme system is updated through javascript by changing the value of the color variables when the user changes themes.
 
 ## Challenges
 

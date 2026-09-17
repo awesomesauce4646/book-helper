@@ -48,14 +48,15 @@
             <div class="container ambient-container">
                 <h2>Ambient Noise</h2>
                 <audio id="rain-audio" loop src="sounds/rain.mp3"></audio>
+                <audio id="white-audio" loop src="sounds/whitenoise.mp3"></audio>
                 <div class="ambient-section">
                     <div class="sound-row">
                         <p>White Noise</p>
-                        <button id="white-btn" class="toggle-switch" onclick="toggleAmbient()">Play Sound</button>
+                        <button id="white-btn" class="toggle-switch" onclick="toggleNoise()">Play Sound</button>
                     </div>
                     <div class="sound-row">
                         <p>Heavy Rain</p>
-                        <button id="rain-btn" class="toggle-switch" onclick="togglePlayback()">Play Sound</button>
+                        <button id="rain-btn" class="toggle-switch" onclick="toggleRain()">Play Sound</button>
                     </div>
                 </div>
             </div>

@@ -549,8 +549,9 @@ input {
 }
 
 .badge-icon {
-    font-size: 2rem;
     margin-bottom: 0.5rem;
+    height: 4rem;
+
 }
 .theme-grid {
     display: flex;
