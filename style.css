@@ -61,8 +61,8 @@ body {
     position: absolute;
     inset: 0;
     background-color: var(--accent);
-    -webkit-mask-image: url('mascot-body.png');
-    mask-image: url('mascot-body.png');
+    -webkit-mask-image: url('images/mascot-body.png');
+    mask-image: url('images/mascot-body.png');
     -webkit-mask-size: contain;
     mask-size: contain;
     -webkit-mask-repeat: no-repeat;
@@ -76,7 +76,7 @@ body {
 .mascot-details {
     position: absolute;
     inset: 0;
-    background-image: url('mascot-details.png');
+    background-image: url('images/mascot-details.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
