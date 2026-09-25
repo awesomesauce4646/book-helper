@@ -17,6 +17,7 @@ I personally struggle a lot with reading, so I thought making a site for it woul
 - Site theme customization
 - Trophies
 - Stats
+- Booklist
 
 ## Technicalities 
 

@@ -469,7 +469,7 @@ input {
     max-height: 80vh;
     overflow-y: auto;
     border: 20px solid rgba(255,255,255,0.05);
-
+    border-radius: 20px;
 }
 
 .modal-close {
@@ -579,7 +579,7 @@ input {
 .complete-modal {
     text-align: center;
     background-color: var(--card-bg);
-    border-radius: 0;
+    border-radius: 20px;
 
 }
 
