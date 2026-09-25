@@ -1,16 +1,17 @@
 :root {
     --bg-color: #111141;
-    --card-bg: rgb(41, 41, 105);
+    --card-bg: rgb(62, 62, 167);
+    --card-secondary-bg: rgb(41, 41, 105);
     --accent: #3b82f6;
     --accent-hover: #2666f0;
     --text-main: #f3f4f6;
     --text-muted: #c6cedb;
     --success: #10b981;
-    --secondary-accent: #d400ff;
-    --secondary-accent-hover: #b000d4;
     --xp-fill: rgb(198, 65, 250);
-    --reset: rgb(111, 0, 255);
-    --reset-hover: rgb(102, 0, 235);
+    --secondary-accent: rgb(111, 0, 255);
+    --secondary-accent-hover: rgb(75, 0, 173);
+    --third-accent: rgb(221, 0, 196);
+    --third-accent-hover: rgb(167, 0, 147);
 }
 
 html {
@@ -45,6 +46,8 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+
+
 }
 
 .mascot-wrapper {
@@ -89,6 +92,7 @@ h1, h2 {
     font-family: "VT323", serif;
     margin: 0 0 0.5rem;
     letter-spacing: 0.03em;
+
 }
 
 h1 {
@@ -165,49 +169,29 @@ p {
     padding-top: 1rem;
     border-radius: 0px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 20px solid rgba(255,255,255,0.05);
     box-sizing: border-box;
 }
 
 
 .timer-card {
-    background-color: color-mix(in srgb, rgb(62, 62, 167) 35%, var(--accent) 35%);
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+    background-color: var(--card-bg);
+    border: 20px solid  rgba(255,255,255,0.05);
 }
 
 .ambient-container {
-    background-color: color-mix(in srgb, rgb(61, 33, 99) 35%, var(--accent) 35%) !important;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+    background-color: var(--card-bg);
 }
 
 .stats-container {
-    background-color: color-mix(in srgb, rgb(104, 8, 133) 35%, var(--accent) 35%);
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+    background-color: var(--card-bg);
 }
 
 .navbar {
-    background-color: color-mix(
-        in srgb,
-        rgb(62, 62, 167) 30%,
-        color-mix(in srgb, var(--accent) 50%, var(--secondary-accent) 50%) 30%
-    );
+    background-color:rgb(62, 62, 167);
     padding: 1.25rem;
     border-radius: 0px;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 20px solid rgba(255,255,255,0.05);
     box-sizing: border-box;
 }
 
@@ -218,11 +202,7 @@ p {
     margin: 1.5rem 0;
     font-variant-numeric: tabular-nums;
     letter-spacing: -2px;
-    background-color: var(--card-bg);
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+    background-color: var(--card-secondary-bg);
 }
 
 .controls {
@@ -241,10 +221,6 @@ button {
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     font-family: inherit;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
 button:active {
@@ -267,23 +243,20 @@ button:focus-visible {
     color: white;
 }
 #start-btn:hover { background-color: var(--accent-hover); }
-#start-btn.running { background-color: var(--secondary-accent); }
-#start-btn.running:hover { background-color: var(--secondary-accent-hover); }
+#start-btn.running { background-color: var(--third-accent); }
+#start-btn.running:hover { background-color: var(--third-accent-hover); }
 
 #reset-btn {
-    background-color: var(--reset);
+    background-color: var(--secondary-accent);
     color: var(--text-main);
 }
-#reset-btn:hover { background-color: var(--reset-hover); }
+#reset-btn:hover { background-color: var(--secondary-accent-hover); }
 
 .level-panel {
-    background-color: var(--card-bg);
+    background-color: var(--card-secondary-bg);
     border-radius: 0px;
     padding: 1.35rem 1.5rem;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+
 }
 
 .level-row {
@@ -357,10 +330,7 @@ button:focus-visible {
     width: 100%;
     min-width: 0;
     font-size: clamp(0.9rem, 0.8vw + 0.75rem, 1.1rem);
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+
 }
 .toggle-switch:hover { 
     background-color: var(--accent-hover); 
@@ -379,13 +349,9 @@ button:focus-visible {
 .stats-strip {
     display: flex;
     justify-content: space-around;
-    background-color: var(--card-bg);
+    background-color: var(--card-secondary-bg);
     border-radius: 0px;
     padding: 1rem;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
 .stats-strip-item {
@@ -423,24 +389,24 @@ button:focus-visible {
 }
 
 .link-btn.link-btn-trophies {
-    background-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background-color: var(--accent);
 }
 .link-btn.link-btn-trophies:hover {
-    background-color: color-mix(in srgb, var(--accent) 65%, transparent);
+    background-color: var(--accent-hover);
 }
 
 .link-btn.link-btn-customize {
-    background-color: color-mix(in srgb, var(--secondary-accent) 45%, transparent);
+    background-color: var(--secondary-accent);
 }
 .link-btn.link-btn-customize:hover {
-    background-color: color-mix(in srgb, var(--secondary-accent) 65%, transparent);
+    background-color: var(--secondary-accent-hover);
 }
 
 .link-btn.link-btn-settings {
-    background-color: color-mix(in srgb, var(--accent) 30%, var(--secondary-accent) 30%);
+    background-color: var(--third-accent);
 }
 .link-btn.link-btn-settings:hover {
-    background-color: color-mix(in srgb, var(--accent) 45%, var(--secondary-accent) 45%);
+    background-color: var(--third-accent-hover);
 }
 
 .settings-section {
@@ -457,7 +423,7 @@ button:focus-visible {
 }
 
 input {
-    background-color: var(--card-bg);
+    background-color: var(--card-secondary-bg);
     color: white;
     font-family: "VT323", serif;
     font-variant-numeric: tabular-nums;
@@ -467,10 +433,6 @@ input {
     width: 8.5rem;
     padding: 10px;
     font-size: 1.6rem;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
 }
 
 .modal-overlay {
@@ -490,16 +452,14 @@ input {
 
 .modal {
     position: relative;
-    background-color: color-mix(in srgb, rgb(19, 19, 65) 45%, var(--accent) 75%);
+    background-color: var(--card-bg);
     padding: 2rem;
     max-width: 480px;
     width: 100%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);    border: 1px solid rgba(255,255,255,0.1);
+    border: 20px solid rgba(255,255,255,0.05);
+
 }
 
 .modal-close {
@@ -526,7 +486,7 @@ input {
 }
 
 .badge-card {
-    background: var(--card-bg);
+    background: var(--card-secondary-bg);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0px; /* Matches your retro 0px theme */
     padding: 1rem;
@@ -537,10 +497,8 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+    border: 5px solid rgba(255,255,255,0.05);
+
 }
 
 .badge-card.locked {
@@ -557,6 +515,7 @@ input {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+
 }
 
 .theme-row {
@@ -564,12 +523,9 @@ input {
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    background-color: var(--card-bg);
+    background-color: var(--card-secondary-bg);
     padding: 0.75rem 1rem;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+
 }
 
 .theme-info {
@@ -612,12 +568,9 @@ input {
 
 .complete-modal {
     text-align: center;
-    background-color: color-mix(in srgb, rgb(19, 19, 65) 45%, var(--secondary-accent) 55%);
+    background-color: var(--card-bg);
     border-radius: 0;
-    box-shadow:
-        6px 6px 0 0 rgba(0,0,0,0.5),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.15);
+
 }
 
 .complete-icon {
@@ -661,10 +614,7 @@ input {
     border: none;
     border-radius: 0;
     cursor: pointer;
-    box-shadow:
-        4px 4px 0 0 rgba(0,0,0,0.4),
-        inset -2px -2px 0 0 rgba(0,0,0,0.3),
-        inset 2px 2px 0 0 rgba(255,255,255,0.2);
+
 }
 .complete-ok-btn:hover { 
     background-color: var(--accent-hover); 

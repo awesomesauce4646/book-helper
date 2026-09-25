@@ -38,11 +38,11 @@ function getTitle(level) {
 }
 
 const THEMES = [
-    { id: 'default', name: 'Ocean', unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: '#d400ff', secondaryHover: '#b000d4', bgColor: '#111141', xpFill: '#c641fa', reset: 'rgb(111, 0, 255)', resetHover: 'rgb(102, 0, 235)' },
-    { id: 'forest',  name: 'Forest',   unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', resetHover: 'rgb(5, 60, 32)' },
-    { id: 'sunset',  name: 'Sunset',    unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', resetHover: 'rgb(220, 38, 38)' },
-    { id: 'rose',    name: 'Rose',     unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', resetHover: 'rgb(215, 60, 60)' },
-    { id: 'gold',    name: 'Golden',     unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', resetHover: 'rgb(190, 120, 0)' }
+  { id: 'default', name: 'Ocean',   unlockLevel: 1,  accent: '#3b82f6', accentHover: '#2666f0', secondary: 'rgb(111, 0, 255)', secondaryHover: 'rgb(102, 0, 235)', third: 'rgb(221, 0, 196)', thirdHover: 'rgb(221, 0, 196)', bgColor: '#111141', xpFill: '#c641fa', reset: 'rgb(?, ?, ?)', resetHover: 'rgb(?, ?, ?)' }, // fill in intended values
+  { id: 'forest',  name: 'Forest',  unlockLevel: 5,  accent: '#10b981', accentHover: '#0d9467', secondary: '#facc15', secondaryHover: '#eab308', third: 'rgb(0, 221, 11)', thirdHover: 'rgb(7, 130, 0)', bgColor: '#0d1f17', xpFill: '#34d399', reset: 'rgb(7, 82, 44)', resetHover: 'rgb(5, 60, 32)' },
+  { id: 'sunset',  name: 'Sunset',  unlockLevel: 10, accent: '#f97316', accentHover: '#ea580c', secondary: '#ef4444', secondaryHover: '#dc2626', third: 'rgb(205, 0, 51)', thirdHover: 'rgb(139, 0, 35)', bgColor: '#2a1408', xpFill: '#fb923c', reset: 'rgb(239, 68, 68)', resetHover: 'rgb(220, 38, 38)' },
+  { id: 'rose',    name: 'Rose',    unlockLevel: 15, accent: '#ec4899', accentHover: '#db2777', secondary: '#8b5cf6', secondaryHover: '#7c3aed', third: 'rgb(221, 0, 196)', thirdHover: 'rgb(221, 0, 196)', bgColor: '#241226', xpFill: '#f472b6', reset: 'rgb(235, 85, 85)', resetHover: 'rgb(215, 60, 60)' },
+  { id: 'gold',    name: 'Golden',  unlockLevel: 20, accent: '#ffbf00', accentHover: '#ca8a04', secondary: '#f43f5e', secondaryHover: '#e11d48', third: 'rgb(245, 204, 0)', thirdHover: 'rgb(205, 171, 0)', bgColor: '#241608', xpFill: '#facc15', reset: 'rgb(221, 144, 0)', resetHover: 'rgb(190, 120, 0)' }
 ];
 
 const BADGE_DEFS = [
@@ -238,6 +238,9 @@ function applyTheme(themeId) {
     root.setProperty('--xp-fill', theme.xpFill);
     root.setProperty('--reset', theme.reset);
     root.setProperty('--reset-hover', theme.resetHover);
+    root.setProperty('--third-accent', theme.third);
+    root.setProperty('--third-accent-hover', theme.thirdHover);
+
 }
 
 function selectTheme(themeId) {
