@@ -12,6 +12,8 @@
     --secondary-accent-hover: rgb(75, 0, 173);
     --third-accent: rgb(221, 0, 196);
     --third-accent-hover: rgb(167, 0, 147);
+    --fourth-accent: rgb(221, 0, 99);
+    --fourth-accent-hover: rgb(195, 0, 55);
 }
 
 html {
@@ -24,7 +26,7 @@ html::-webkit-scrollbar {
 }
 
 body {
-    font-family: "VT323", Roboto, sans-serif;
+    font-family: "Gelasio", Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     margin: 0;
@@ -89,14 +91,14 @@ body {
 h1, h2 {
     color: var(--text-main);
     text-align: center;
-    font-family: "VT323", serif;
+    font-family: "Gorditas", serif;
     margin: 0 0 0.5rem;
     letter-spacing: 0.03em;
 
 }
 
 h1 {
-    font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+    font-size: clamp(2rem, 5vw + 1rem, 4.5rem);
 }
 
 h2 {
@@ -113,7 +115,7 @@ p.subtitle {
 
 p {
     font-family: "VT323", serif;
-    font-size: clamp(1.1rem, 1vw + 0.9rem, 1.35rem);
+    font-size: clamp(.7rem, 1vw + 0.9rem, 1.35rem);
     line-height: 1.3;
 }
 
@@ -132,9 +134,9 @@ p {
     box-sizing: border-box;
 }
 
-@media (min-width: 820px) {
+@media (min-width: 1000px) {
     .page {
-        max-width: 860px;
+        max-width: 1000px;
         grid-template-areas:
             "timer side"
             "actions actions";
@@ -167,7 +169,7 @@ p {
     width: 100%;
     padding: 2rem;
     padding-top: 1rem;
-    border-radius: 0px;
+    border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     border: 20px solid rgba(255,255,255,0.05);
     box-sizing: border-box;
@@ -188,9 +190,9 @@ p {
 }
 
 .navbar {
-    background-color:rgb(62, 62, 167);
+    background-color:var(--card-bg);
     padding: 1.25rem;
-    border-radius: 0px;
+    border-radius: 20px;
     border: 20px solid rgba(255,255,255,0.05);
     box-sizing: border-box;
 }
@@ -405,8 +407,16 @@ button:focus-visible {
 .link-btn.link-btn-settings {
     background-color: var(--third-accent);
 }
+
 .link-btn.link-btn-settings:hover {
     background-color: var(--third-accent-hover);
+}
+
+.link-btn.link-btn-bookList {
+    background-color: var(--fourth-accent);
+}
+.link-btn.link-btn-bookList:hover {
+    background-color: var(--fourth-accent-hover);
 }
 
 .settings-section {
@@ -630,4 +640,37 @@ input {
   font-family: "VT323", monospace;
   font-weight: 400;
   font-style: normal;
+}
+
+.gorditas-regular {
+  font-family: "Gorditas", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gorditas-bold {
+  font-family: "Gorditas", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+.gelasio {
+  font-family: "Gelasio", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.slackey-regular {
+  font-family: "Slackey", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#bookList-notes {
+    margin-bottom: 10px;
+    padding: 10px;
+    outline: 2px solid #b4b4b4;
+    width: 90%;
 }

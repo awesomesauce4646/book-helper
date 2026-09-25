@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Gorditas:wght@400;700&family=Micro+5&family=VT323&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400..700;1,400..700&family=Gorditas:wght@400;700&family=Slackey&display=swap" rel="stylesheet">
     <title>Book Helper</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -84,6 +84,7 @@
             <button class="link-btn link-btn-trophies" onclick="openModal('trophies-modal')">Trophies</button>
             <button class="link-btn link-btn-customize" onclick="openModal('customize-modal')">Customize</button>
             <button class="link-btn link-btn-settings" onclick="openModal('settings-modal')">Settings</button>
+            <button class="link-btn link-btn-bookList" onclick="openModal('bookList-modal')">Book List</button>
         </div>
     </div>
 
@@ -110,6 +111,25 @@
             <div class="settings-section">
                 <label for="timer-duration">Timer Duration (minutes):</label>
                 <input type="number" id="timer-duration" min="1" max="120" value="15">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="bookList-modal" onclick="closeModalOnBackdrop(event, 'bookList-modal')">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('bookList-modal')" aria-label="Close">&times;</button>
+            <h2>Book List</h2>
+            <div class ="settings-section" style ="display: flex; justify-content: center;">
+                <!--
+                Source - https://stackoverflow.com/q/39355687
+                Posted by Shelby
+                Retrieved 2026-09-24, License - CC BY-SA 3.0
+                -->
+                <!-- modified to be simplerrr-->
+
+                <div id="bookList-notes" contenteditable="true">
+                <p>Write down titles of books in here, thoughts about books, or anything you want!</p>
+                </div>
             </div>
         </div>
     </div>
