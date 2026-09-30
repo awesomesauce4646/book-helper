@@ -156,7 +156,7 @@ function resetTimer() {
 function updateDuration() {
     const input = document.getElementById('timer-duration');
     let minutes = parseInt(input.value, 10);
-
+    if (isNaN(minutes)) minutes = 5;
     if (minutes < MIN_MINUTES) minutes = MIN_MINUTES;
     if (minutes > MAX_MINUTES) minutes = MAX_MINUTES;
     input.value = minutes;

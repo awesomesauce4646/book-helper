@@ -26,7 +26,7 @@ html::-webkit-scrollbar {
 }
 
 body {
-    font-family: "Gelasio", Roboto, sans-serif;
+    font-family: "Geist Pixel", Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     margin: 0;
@@ -91,18 +91,19 @@ body {
 h1, h2 {
     color: var(--text-main);
     text-align: center;
-    font-family: "Gorditas", serif;
+    font-family: "Press Start 2P", serif;
     margin: 0 0 0.5rem;
     letter-spacing: 0.03em;
-
 }
 
 h1 {
-    font-size: clamp(2rem, 5vw + 1rem, 4.5rem);
+    font-size: 45px;
+    margin-top: 20px;
 }
 
 h2 {
-    font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+    font-size: 35px;
+
 }
 
 p.subtitle {
@@ -110,11 +111,11 @@ p.subtitle {
     color: var(--text-muted);
     font-size: clamp(1.25rem, 2vw + 0.75rem, 1.85rem);
     text-align: center;
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
 }
 
 p {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(.7rem, 1vw + 0.9rem, 1.35rem);
     line-height: 1.3;
 }
@@ -269,7 +270,7 @@ button:focus-visible {
 }
 
 .level-badge {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.9rem, 2vw + 1.2rem, 2.4rem);
     font-weight: bold;
     color: var(--accent);
@@ -277,7 +278,7 @@ button:focus-visible {
 }
 
 .level-title {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.3rem, 1.2vw + 0.9rem, 1.6rem);
     color: var(--text-muted);
 }
@@ -301,7 +302,7 @@ button:focus-visible {
     margin-top: 0.5rem;
     font-size: clamp(1rem, 0.8vw + 0.8rem, 1.2rem);
     color: var(--text-muted);
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     text-align: right;
 }
 
@@ -364,7 +365,7 @@ button:focus-visible {
 }
 
 .stats-strip-value {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.6rem, 2vw + 1rem, 2.1rem);
     color: var(--accent);
     font-weight: bold;
@@ -373,7 +374,7 @@ button:focus-visible {
 .stats-strip-label {
     font-size: clamp(0.95rem, 0.6vw + 0.8rem, 1.1rem);
     color: var(--text-muted);
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     line-height: 1.3;
 }
 
@@ -425,7 +426,7 @@ button:focus-visible {
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
 }
 
 .settings-section label {
@@ -435,7 +436,7 @@ button:focus-visible {
 input {
     background-color: var(--card-secondary-bg);
     color: white;
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-variant-numeric: tabular-nums;
     text-align: center;
     border-style: solid;
@@ -553,7 +554,7 @@ input {
 }
 
 .theme-name {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.1rem, 0.8vw + 0.9rem, 1.3rem);
     line-height: 1.3;
 }
@@ -589,7 +590,7 @@ input {
 }
 
 .complete-body {
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.1rem, 1vw + 0.9rem, 1.35rem);
     color: var(--text-main);
     margin: 1rem 0 1.5rem;
@@ -618,7 +619,7 @@ input {
 .complete-ok-btn {
     background-color: var(--accent);
     color: var(--text-main);
-    font-family: "VT323", serif;
+    font-family: "Geist Pixel", serif;
     font-size: clamp(1.05rem, 1vw + 0.85rem, 1.3rem);
     padding: 0.75rem 2rem;
     border: none;
@@ -673,4 +674,20 @@ input {
     padding: 10px;
     outline: 2px solid #b4b4b4;
     width: 90%;
+}
+
+
+.geist-pixel {
+  font-family: "Geist Pixel", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "ELSH" 0;
+}
+
+.press-start-2p-regular {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
