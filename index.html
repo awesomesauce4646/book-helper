@@ -18,7 +18,7 @@
                 <div class="mascot-details"></div>
             </div>
         </div>
-        <p class="subtitle">Stay focused and locked in on your reading!</p>
+        <p class="subtitle">Stay focused and locked in on your reading! You got this!</p>
     </div>
 
     <div class="page">
@@ -28,6 +28,10 @@
             <div class="controls">
                 <button id="start-btn" onclick="toggleTimer()">Start Reading!</button>
                 <button id="reset-btn" onclick="resetTimer()">Reset</button>
+                <div class = "changeTimer">
+                <button id="timer-btn">Change Timer:</button> 
+            <input type="number" id="timer-duration" min="1" max="120" value="15">
+            </div>
             </div>
 
             <div class="level-panel">
@@ -58,6 +62,8 @@
                         <p>Heavy Rain</p>
                         <button id="rain-btn" class="toggle-switch" onclick="toggleRain()">Play Sound</button>
                     </div>
+                    <div class="sound-row">
+                    </div>
                 </div>
             </div>
 
@@ -83,7 +89,7 @@
         <div class="navbar">
             <button class="link-btn link-btn-trophies" onclick="openModal('trophies-modal')">Trophies</button>
             <button class="link-btn link-btn-customize" onclick="openModal('customize-modal')">Customize</button>
-            <button class="link-btn link-btn-settings" onclick="openModal('settings-modal')">Settings</button>
+            <!-- <button class="link-btn link-btn-settings" onclick="openModal('settings-modal')">Settings</button> -->
             <button class="link-btn link-btn-bookList" onclick="openModal('bookList-modal')">Book List</button>
         </div>
     </div>

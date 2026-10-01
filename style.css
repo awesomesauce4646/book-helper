@@ -149,6 +149,18 @@ p {
     }
 }
 
+.changeTimer {
+    display: flex;
+    justify-content: space-between;
+    gap: 120px;
+}
+
+#timer-btn {
+    background-color: var(--fourth-accent);
+    color: white;
+    font-size: 20px;
+}
+
 .timer-card { grid-area: timer; }
 .navbar { grid-area: actions; }
 
@@ -339,10 +351,10 @@ button:focus-visible {
     background-color: var(--accent-hover); 
 }
 .toggle-switch.active { 
-    background-color: var(--secondary-accent); 
+    background-color: var(--fourth-accent); 
 }
 .toggle-switch.active:hover { 
-    background-color: var(--secondary-accent-hover);
+    background-color: var(--fourth-accent-hover);
 }
 
 .stats-container {
