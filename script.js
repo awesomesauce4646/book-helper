@@ -367,6 +367,21 @@ bookListNotes.addEventListener("input", function () {
   localStorage.setItem("myNote", bookListNotes.innerHTML);
 });
 
+
+const messages = [
+  "you are someone's fav person!",
+  "everyone is a beginner at some point!",
+  "you can do anything you set your mind to :)",
+  "don't give up! preseverance is key!",
+  "never gonna give you up, never gonna let you down!"
+];
+
+const pick = Math.floor(Math.random() * messages.length);
+const text = messages[pick];
+
+document.getElementById('quote').textContent = text;
+document.getElementById('message').textContent = text;
+
 applyTheme(stats.selectedTheme);
 updateDisplay();
 createBadges();
