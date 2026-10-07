@@ -34,7 +34,6 @@ body {
     min-height: 100vh;
 }
 
-/* ---------- Header ---------- */
 
 .page-header {
     text-align: center;
@@ -119,9 +118,7 @@ p {
     line-height: 1.3;
 }
 
-/* ---------- Page layout (THE ONLY place the grid is defined) ---------- */
 
-/* Mobile: one column, stacked */
 .page {
     max-width: 640px;
     margin: 0 auto;
@@ -137,13 +134,11 @@ p {
     box-sizing: border-box;
 }
 
-/* Grid areas: these only work on DIRECT children of .page */
 .timer-card   { grid-area: timer; }
 .side-column  { grid-area: side; }
 .right-column { grid-area: right; }
 .navbar       { grid-area: actions; }
 
-/* Tablet: timer + side on top, right column below them */
 @media (min-width: 700px) {
     .page {
         max-width: 1000px;
@@ -155,7 +150,6 @@ p {
     }
 }
 
-/* Desktop: three columns side by side, navbar underneath */
 @media (min-width: 1100px) {
     .page {
         max-width: 1400px;
@@ -166,13 +160,12 @@ p {
     }
 }
 
-/* Side and right columns: stack their cards and stretch them to fill the height */
 .side-column,
 .right-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    min-width: 0; /* lets grid children shrink instead of overflowing */
+    min-width: 0; 
 }
 
 .side-column > .container,
@@ -184,7 +177,6 @@ p {
     min-width: 0;
 }
 
-/* ---------- Cards ---------- */
 
 .timer-card,
 .container {
@@ -228,7 +220,6 @@ p {
     justify-content: center;
 }
 
-/* ---------- Timer ---------- */
 
 .timer-display {
     font-size: clamp(3rem, 8vw + 1rem, 5.5rem);
@@ -302,7 +293,6 @@ button:focus-visible {
 }
 #reset-btn:hover { background-color: var(--secondary-accent-hover); }
 
-/* ---------- Level panel ---------- */
 
 .level-panel {
     background-color: var(--card-secondary-bg);
@@ -355,7 +345,6 @@ button:focus-visible {
     text-align: right;
 }
 
-/* ---------- Ambient noise ---------- */
 
 .ambient-section {
     display: flex;
@@ -395,7 +384,6 @@ button:focus-visible {
     background-color: var(--fourth-accent-hover);
 }
 
-/* ---------- Stats ---------- */
 
 .stats-strip {
     display: flex;
@@ -421,7 +409,7 @@ button:focus-visible {
     color: var(--accent);
     font-weight: bold;
     max-width: 100%;
-    overflow-wrap: anywhere; /* very long numbers wrap instead of overflowing */
+    overflow-wrap: anywhere; 
     text-align: center;
 }
 
@@ -432,7 +420,6 @@ button:focus-visible {
     line-height: 1.3;
 }
 
-/* ---------- Navbar buttons ---------- */
 
 .link-btn {
     color: var(--text-main);
@@ -468,7 +455,6 @@ button:focus-visible {
     background-color: var(--fourth-accent-hover);
 }
 
-/* ---------- Settings / inputs ---------- */
 
 .settings-section {
     display: flex;
@@ -496,7 +482,6 @@ input {
     font-size: 1.6rem;
 }
 
-/* ---------- Modals ---------- */
 
 .modal-overlay {
     display: none;
@@ -550,7 +535,7 @@ input {
 
 .badge-card {
     background: var(--card-secondary-bg);
-    border-radius: 0px; /* Matches your retro 0px theme */
+    border-radius: 0px; 
     padding: 1rem;
     text-align: center;
     font-family: inherit;
@@ -625,6 +610,16 @@ input {
     background-color: var(--secondary-accent);
 }
 
+.quote-btn {
+    font-size: 1rem;
+    padding: 0.45rem 0.9rem;
+    background-color: var(--secondary-accent);
+    color: var(--text-main);
+}
+.quote-btn:hover {
+    background-color: var(--secondary-accent-hover);
+}
+
 .complete-modal {
     text-align: center;
     background-color: var(--card-bg);
@@ -684,7 +679,6 @@ input {
     width: 90%;
 }
 
-/* ---------- Font helper classes ---------- */
 
 .micro-5-regular {
     font-family: "Micro 5", sans-serif;

@@ -46,12 +46,12 @@ const THEMES = [
 ];
 
 const BADGE_DEFS = [
-    { id: 'streak_7',    image: 'images/fire.png', label: '7-Day Streak',  check: s => s.longestStreak >= 7,hint: 'Read for 7 days straight!' },
-    { id: 'streak_30',   image: 'images/fire.png', label: '30-Day Streak', check: s => s.longestStreak >= 30,         hint: 'Read for 30 days straight!' },
-    { id: 'hours_5',     image: 'images/book.png', label: '5 Hours Read',  check: s => s.totalMinutes >= 300,         hint: 'Read for 5 hours in total!' },
-    { id: 'hours_25',    image: 'images/book.png', label: '25 Hours Read', check: s => s.totalMinutes >= 1500,        hint: 'Read for 25 hours in total!' },
-    { id: 'sessions_10', image: 'images/trophy.png', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10,     hint: 'Complete 10 sessions of reading!' },
-    { id: 'sessions_50', image: 'images/trophy.png', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50,     hint: 'Complete 50 sessions of reading!' }
+    { id: 'streak_7',    image: 'images/fire.png',   label: '7-Day Streak',  check: s => s.longestStreak >= 7,      hint: 'Read for 7 days straight!' },
+    { id: 'streak_30',   image: 'images/fire.png',   label: '30-Day Streak', check: s => s.longestStreak >= 30,     hint: 'Read for 30 days straight!' },
+    { id: 'hours_5',     image: 'images/book.png',   label: '5 Hours Read',  check: s => s.totalMinutes >= 300,     hint: 'Read for 5 hours in total!' },
+    { id: 'hours_25',    image: 'images/book.png',   label: '25 Hours Read', check: s => s.totalMinutes >= 1500,    hint: 'Read for 25 hours in total!' },
+    { id: 'sessions_10', image: 'images/trophy.png', label: '10 Sessions',   check: s => s.sessionsCompleted >= 10, hint: 'Complete 10 sessions of reading!' },
+    { id: 'sessions_50', image: 'images/trophy.png', label: '50 Sessions',   check: s => s.sessionsCompleted >= 50, hint: 'Complete 50 sessions of reading!' }
 ];
 
 
@@ -68,22 +68,22 @@ let isRainPlaying = false;
 
 
 function loadStats() {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const parsed = raw ? JSON.parse(raw) : {};
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
 
-        return {
-            streak: parsed.streak ?? 0,
-            xp: parsed.xp ?? 0,
-            lastDate: parsed.lastDate ?? null,
-            totalMinutes: parsed.totalMinutes ?? 0,
-            sessionsCompleted:  parsed.sessionsCompleted ?? 0,
-            longestStreak: parsed.longestStreak ?? 0,
-            selectedTheme: parsed.selectedTheme ?? 'default'
-        };
+    return {
+        streak: parsed.streak ?? 0,
+        xp: parsed.xp ?? 0,
+        lastDate: parsed.lastDate ?? null,
+        totalMinutes: parsed.totalMinutes ?? 0,
+        sessionsCompleted: parsed.sessionsCompleted ?? 0,
+        longestStreak: parsed.longestStreak ?? 0,
+        selectedTheme: parsed.selectedTheme ?? 'default'
+    };
 }
 
 function saveStats() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
 }
 
 function updateDisplay() {
@@ -206,7 +206,7 @@ function showCompletionModal({ xpEarned, levelBefore, levelAfter, newBadges }) {
     }
 
     if (newBadges.length > 0) {
-        const badgeText = newBadges.map(b => `${b.image} ${b.label}`).join(', ');
+        const badgeText = newBadges.map(b => b.label).join(', ');
         html += `<span class="complete-badge">New trophy unlocked: ${badgeText}</span>`;
     }
 
@@ -243,7 +243,6 @@ function applyTheme(themeId) {
     root.setProperty('--card-bg', theme.cardBg);
     root.setProperty('--fourth-accent', theme.fourth);
     root.setProperty('--fourth-accent-hover', theme.fourthHover);
-
 }
 
 function selectTheme(themeId) {
@@ -293,7 +292,7 @@ function createBadges() {
         const unlocked = badge.check(stats);
         return `
             <div class="badge-card ${unlocked ? '' : 'locked'}">
-                <img class="badge-icon" src="${badge.image}"</img>
+                <img class="badge-icon" src="${badge.image}" alt="${badge.label}">
                 <div>${badge.label}</div>
                 ${unlocked ? '' : `<div style="margin-top:0.3rem; color: var(--text-muted); font-size: 0.75rem;">${badge.hint}</div>`}
             </div>
@@ -314,7 +313,7 @@ function closeModalOnBackdrop(event, id) {
 }
 
 function toggleNoise() {
-    const whiteAudio = document.getElementById('white-audio')
+    const whiteAudio = document.getElementById('white-audio');
     const whiteButton = document.getElementById('white-btn');
 
     if (whiteAudio.paused) {
@@ -328,7 +327,6 @@ function toggleNoise() {
         whiteButton.textContent = 'Play sound';
         whiteButton.classList.remove('active');
     }
-
 }
 
 
@@ -346,7 +344,7 @@ function toggleRain() {
         isRainPlaying = false;
         rainButton.textContent = 'Play sound';
         rainButton.classList.remove('active');
-    }    
+    }
 }
 
 
@@ -360,27 +358,35 @@ var bookListNotes = document.querySelector("#bookList-notes");
 
 var savedNote = localStorage.getItem("myNote");
 if (savedNote !== null) {
-  bookListNotes.innerHTML = savedNote;
+    bookListNotes.innerHTML = savedNote;
 }
 
 bookListNotes.addEventListener("input", function () {
-  localStorage.setItem("myNote", bookListNotes.innerHTML);
+    localStorage.setItem("myNote", bookListNotes.innerHTML);
 });
 
 
 const messages = [
-  "you are someone's fav person!",
-  "everyone is a beginner at some point!",
-  "you can do anything you set your mind to :)",
-  "don't give up! preseverance is key!",
-  "never gonna give you up, never gonna let you down!"
+    "you are someone's fav person!",
+    "everyone is a beginner at some point!",
+    "you can do anything you set your mind to :)",
+    "don't give up! perseverance is key!",
+    "never gonna give you up, never gonna let you down!",
+    "books are essential for the mind, body, and soul:O",
+    "reading is a SUPERPOWER!!!",
+    "your weekend is all BOOKed up...",
+    "reading is a journey, not a race!",
 ];
 
 const pick = Math.floor(Math.random() * messages.length);
 const text = messages[pick];
 
+function changeQuote() {
+    var newPick = Math.floor(Math.random() * messages.length);
+    document.getElementById('quote').textContent = messages[newPick];
+}
+
 document.getElementById('quote').textContent = text;
-document.getElementById('message').textContent = text;
 
 applyTheme(stats.selectedTheme);
 updateDisplay();
