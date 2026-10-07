@@ -22,16 +22,17 @@
     </div>
 
     <div class="page">
+
         <div class="timer-card">
             <h2>Timer</h2>
             <div class="timer-display" id="timer">15:00</div>
             <div class="controls">
                 <button id="start-btn" onclick="toggleTimer()">Start Reading!</button>
                 <button id="reset-btn" onclick="resetTimer()">Reset</button>
-                <div class = "changeTimer">
-                <button id="timer-btn">Change Timer:</button> 
-            <input type="number" id="timer-duration" min="1" max="120" value="15">
-            </div>
+                <div class="changeTimer">
+                    <button id="timer-btn">Change Timer:</button>
+                    <input type="number" id="timer-duration" min="1" max="120" value="15">
+                </div>
             </div>
 
             <div class="level-panel">
@@ -62,8 +63,6 @@
                         <p>Heavy Rain</p>
                         <button id="rain-btn" class="toggle-switch" onclick="toggleRain()">Play Sound</button>
                     </div>
-                    <div class="sound-row">
-                    </div>
                 </div>
             </div>
 
@@ -86,13 +85,28 @@
             </div>
         </div>
 
+        <div class="right-column">
+            <div class="container">
+                <h2>Spotify</h2>
+<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6OpvhaJmmbdhqjplBKUGeJ?utm_source=generator&theme=0&si=27285d92e7fd4b77" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <div class="container">
+                <h2>Quotes</h2>
+                <p>And something here.</p>
+            </div>
+        </div>
+
+
         <div class="navbar">
             <button class="link-btn link-btn-trophies" onclick="openModal('trophies-modal')">Trophies</button>
             <button class="link-btn link-btn-customize" onclick="openModal('customize-modal')">Customize</button>
             <!-- <button class="link-btn link-btn-settings" onclick="openModal('settings-modal')">Settings</button> -->
             <button class="link-btn link-btn-bookList" onclick="openModal('bookList-modal')">Book List</button>
         </div>
+
     </div>
+
 
     <div class="modal-overlay" id="trophies-modal" onclick="closeModalOnBackdrop(event, 'trophies-modal')">
         <div class="modal">
@@ -115,8 +129,7 @@
             <button class="modal-close" onclick="closeModal('settings-modal')" aria-label="Close">&times;</button>
             <h2>Settings</h2>
             <div class="settings-section">
-                <label for="timer-duration">Timer Duration (minutes):</label>
-                <input type="number" id="timer-duration" min="1" max="120" value="15">
+                <p>Change the timer length from the Timer card.</p>
             </div>
         </div>
     </div>
@@ -125,7 +138,7 @@
         <div class="modal">
             <button class="modal-close" onclick="closeModal('bookList-modal')" aria-label="Close">&times;</button>
             <h2>Book List</h2>
-            <div class ="settings-section" style ="display: flex; justify-content: center;">
+            <div class="settings-section" style="display: flex; justify-content: center;">
                 <!--
                 Source - https://stackoverflow.com/q/39355687
                 Posted by Shelby
@@ -134,7 +147,7 @@
                 <!-- modified to be simplerrr-->
 
                 <div id="bookList-notes" contenteditable="true">
-                <p>Write down titles of books in here, thoughts about books, or anything you want!</p>
+                    <p>Write down titles of books in here, thoughts about books, or anything you want!</p>
                 </div>
             </div>
         </div>
