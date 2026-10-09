@@ -366,6 +366,62 @@ bookListNotes.addEventListener("input", function () {
 });
 
 
+let books = [];
+try { books = JSON.parse(localStorage.getItem('bookListItems')) || []; } catch {}
+
+const bookForm  = document.getElementById('book-form');
+const bookInput = document.getElementById('book-input');
+const bookItems = document.getElementById('book-items');
+const bookCount = document.getElementById('book-count');
+
+function saveBooks() {
+    localStorage.setItem('bookListItems', JSON.stringify(books));
+}
+
+function renderBooks() {
+    bookItems.innerHTML = '';
+    books.forEach(book => {
+        const li = document.createElement('li');
+        li.className = 'book-item' + (book.done ? ' done' : '');
+
+        const box = document.createElement('input');
+        box.type = 'checkbox';
+        box.checked = book.done;
+        box.setAttribute('aria-label', 'Mark ' + book.title + ' as read');
+        box.addEventListener('change', () => { book.done = box.checked; saveBooks(); renderBooks(); });
+
+        const label = document.createElement('span');
+        label.textContent = book.title;
+
+        const del = document.createElement('button');
+        del.className = 'book-del';
+        del.innerHTML = '&times;';
+        del.setAttribute('aria-label', 'Remove ' + book.title);
+        del.addEventListener('click', () => {
+            books = books.filter(b => b.id !== book.id);
+            saveBooks(); renderBooks();
+        });
+
+        li.append(box, label, del);
+        bookItems.appendChild(li);
+    });
+
+    const read = books.filter(b => b.done).length;
+    bookCount.textContent = books.length ? `${read} of ${books.length} read` : '';
+}
+
+bookForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const title = bookInput.value.trim();
+    if (!title) return;
+    books.push({ id: Date.now(), title, done: false });
+    bookInput.value = '';
+    saveBooks(); renderBooks();
+});
+
+renderBooks();
+
+
 const messages = [
     "you are someone's fav person!",
     "everyone is a beginner at some point!",

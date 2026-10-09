@@ -94,7 +94,7 @@
             <div class="container">
                 <h2>Quotes</h2>
                 <p id="quote">And something here.</p>
-                <button class="quote-btn" id="quote" onClick="changeQuote()">New Quote</button>
+                <button class="quote-btn" onClick="changeQuote()">New Quote</button>
             </div>
         </div>
 
@@ -140,16 +140,26 @@
             <button class="modal-close" onclick="closeModal('bookList-modal')" aria-label="Close">&times;</button>
             <h2>Book List</h2>
             <div class="settings-section" style="display: flex; justify-content: center;">
-                <!--
-                Source - https://stackoverflow.com/q/39355687
-                Posted by Shelby
-                Retrieved 2026-09-24, License - CC BY-SA 3.0
-                -->
-                <!-- modified to be simplerrr-->
 
-                <div id="bookList-notes" contenteditable="true">
-                    <p>Write down titles of books in here, thoughts about books, or anything you want!</p>
+                <div class="booklist-wrap">
+                    <form id="book-form">
+                        <input type="text" id="book-input" placeholder="Add a book title..." autocomplete="off" aria-label="Book title">
+                        <button type="submit" class="book-add-btn">Add</button>
+                    </form>
+                    <ul id="book-items"></ul>
+                    <div id="book-count"></div>
+
+                    <!--
+                    Source - https://stackoverflow.com/q/39355687
+                    Posted by Shelby
+                    Retrieved 2026-09-24, License - CC BY-SA 3.0
+                    -->
+                    <!-- modified to be simplerrr-->
+                    <div id="bookList-notes" contenteditable="true">
+                        <p>Thoughts about books, or anything you want!</p>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

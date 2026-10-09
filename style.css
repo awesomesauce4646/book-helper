@@ -672,12 +672,74 @@ input {
     background-color: var(--accent-hover);
 }
 
-#bookList-notes {
-    margin-bottom: 10px;
-    padding: 10px;
-    outline: 2px solid #b4b4b4;
-    width: 90%;
+
+/* ---- Book List: checklist + notes ---- */
+.booklist-wrap { width: 100%; }
+
+#book-form { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+
+/* the global `input` rule sets width/centering, so override it here */
+#book-input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    text-align: left;
+    font-size: 1.2rem;
+    border: 2px solid rgba(255,255,255,0.25);
 }
+#book-input:focus { outline: 2px solid var(--accent); }
+
+.book-add-btn { background-color: var(--accent); color: var(--text-main); }
+.book-add-btn:hover { background-color: var(--accent-hover); }
+
+#book-items { list-style: none; margin: 0; padding: 0; }
+
+.book-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 2px dashed rgba(255,255,255,0.15);
+    font-family: "Geist Pixel", serif;
+    font-size: 1.2rem;
+}
+.book-item span { flex: 1; overflow-wrap: anywhere; }
+.book-item.done span { text-decoration: line-through; opacity: 0.5; }
+
+/* checkboxes also inherit the global `input` rule, so reset it */
+.book-item input[type="checkbox"] {
+    width: 1.4rem;
+    height: 1.4rem;
+    padding: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.book-del {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    padding: 0 0.5rem;
+}
+.book-del:hover { color: var(--fourth-accent); }
+
+#book-count {
+    margin-top: 0.5rem;
+    text-align: right;
+    color: var(--text-muted);
+    font-family: "Geist Pixel", serif;
+}
+
+#bookList-notes {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    outline: 2px solid rgba(255,255,255,0.3);
+    min-height: 4rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+#bookList-notes:focus { outline-color: var(--accent); }
 
 
 .micro-5-regular {
